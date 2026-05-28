@@ -6,19 +6,16 @@ import { ArcadeButton } from "@/components/ui/arcade-button";
 import { useState, useEffect } from "react";
 
 export function HeroSection() {
-  // Simulación de estado día/noche para demo (en prod usar useAutoTheme)
   const [isNight, setIsNight] = useState(false);
 
-  // Efecto simple para demo visual (puedes quitarlo si usas next-themes global)
   useEffect(() => {
     const hour = new Date().getHours();
     setIsNight(hour >= 18 || hour < 6);
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden" suppressHydrationWarning>
       
-      {/* 1. Background Image con Overlay Dinámico */}
       <div className="absolute inset-0 z-0">
         <Image 
           src={isNight ? "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1000" : "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=1000"} 
@@ -26,13 +23,10 @@ export function HeroSection() {
           fill 
           className="object-cover transition-opacity duration-1000"
           priority
+          unoptimized
         />
-        {/* Overlay Día: Crema cálido */}
         <div className={`absolute inset-0 bg-crema/70 dark:bg-[#0F0F1E]/80 transition-colors duration-1000 ${!isNight ? 'opacity-100' : 'opacity-0'} mix-blend-multiply`} />
-        {/* Overlay Noche: Azul profundo */}
         <div className={`absolute inset-0 bg-[#0F0F1E]/60 dark:bg-[#0F0F1E]/40 transition-colors duration-1000 ${isNight ? 'opacity-100' : 'opacity-0'} mix-blend-multiply`} />
-        
-        {/* Textura de Hojas (Palm Overlay) */}
         <div className="absolute inset-0 palm-overlay opacity-20" aria-hidden="true" />
       </div>
 

@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Importación de Fuentes Optimizadas */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-
 :root {
   --foreground-rgb: 44, 36, 25; /* Cafe */
   --background-start-rgb: 250, 247, 242; /* Crema */
@@ -64,7 +61,7 @@ body {
 /* 3. Pulso Lightning (Lightning Pulse) */
 @keyframes lightning-pulse {
   0%, 95% { opacity: 0.5; filter: brightness(1); }
-  5%, 10% { opacity: 1; filter: brightness(2); box-shadow: 0 0 15px var(--neon-cian); }
+  5%, 10% { opacity: 1; filter: brightness(2); box-shadow: 0 0 15px #00F5D4; }
 }
 .lightning-pulse {
   animation: lightning-pulse 3s infinite;
@@ -124,3 +121,7 @@ body {
 }
 .dark ::-webkit-scrollbar-thumb { background: #00F5D4; /* Neon Cian */ }
 ::-webkit-scrollbar-thumb:hover { background: #D4AF37; /* Dorado */ }
+
+/* Selection styles (moved from layout to avoid hydration issues) */
+::selection { background: #E07A5F; color: white; }
+.dark ::selection { background: #00F5D4; color: #0F0F1E; }

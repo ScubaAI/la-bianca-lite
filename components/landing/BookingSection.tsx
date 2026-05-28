@@ -1,22 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 
-// NOTA: Reemplaza 'tu-usuario-cal' con tu link real de Cal.com
-// Ejemplo: https://cal.com/labianca/reserva-mesa
 const CAL_LINK = "https://cal.com/tu-usuario-labianca/reserva-mesa"; 
 
 export function BookingSection() {
-  const calRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    // Cargar script de Cal.com solo cuando el componente monta
-    const script = document.createElement("script");
-    script.src = "https://cal.com/embed.js";
-    script.async = true;
-    script.onload = () => {
-      if (window.Cal) {
+    if (typeof window === "undefined") return;
+    
+    const initCal = () => {
+      if (typeof window.Cal !== "undefined") {
         window.Cal("init", "30min", { origin: "https://cal.com" });
         window.Cal("inline", {
           elementOrSelector: "#my-cal-inline",
@@ -24,26 +18,27 @@ export function BookingSection() {
         });
       }
     };
-    
-    // Evitar duplicados
-    if (!document.querySelector('script[src="https://cal.com/embed.js"]')) {
+
+    const existingScript = document.querySelector('script[src="https://cal.com/embed.js"]');
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://cal.com/embed.js";
+      script.async = true;
+      script.onload = initCal;
+      script.onerror = () => console.warn("Cal.com embed script failed to load");
       document.body.appendChild(script);
+    } else {
+      initCal();
     }
 
-    return () => {
-      // Limpieza opcional si fuera necesario
-    };
+    return () => {};
   }, []);
 
   return (
-    <section id="booking" className="relative py-20 px-4 bg-crema dark:bg-[#0F0F1E] transition-colors duration-500">
-      
-      {/* Textura de fondo sutil */}
+    <section id="booking" className="relative py-20 px-4 bg-crema dark:bg-[#0F0F1E] transition-colors duration-500" suppressHydrationWarning>
       <div className="absolute inset-0 brick-overlay opacity-30 pointer-events-none" aria-hidden="true" />
 
       <div className="container mx-auto max-w-4xl relative z-10">
-        
-        {/* Header de la Sección */}
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -62,7 +57,6 @@ export function BookingSection() {
           </p>
         </motion.div>
 
-        {/* Contenedor Glassmorphism para Cal.com */}
         <motion.div 
           className="glass-card-day dark:glass-card-night rounded-2xl p-2 md:p-4 shadow-xl overflow-hidden min-h-[600px]"
           initial={{ scale: 0.95, opacity: 0 }}
@@ -70,16 +64,13 @@ export function BookingSection() {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          {/* El iframe de Cal.com se inyectará aquí */}
           <div id="my-cal-inline" className="w-full h-full min-h-[550px] rounded-xl overflow-hidden bg-white dark:bg-[#1A1A2E]" />
         </motion.div>
-
       </div>
     </section>
   );
 }
 
-// Tipado global para Cal.com
 declare global {
   interface Window {
     Cal: any;

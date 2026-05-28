@@ -41,11 +41,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${spaceGrotesk.variable} antialiased selection:bg-terracota selection:text-white dark:selection:bg-neon-cian dark:selection:text-[#0F0F1E]`}>
+      <body className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${spaceGrotesk.variable} antialiased`}>
         <Providers>
-          {/* Overlay de textura global sutil */}
           <div className="fixed inset-0 z-[-1] palm-overlay" aria-hidden="true" />
-          
           {children}
         </Providers>
       </body>
