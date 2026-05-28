@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Importación de Fuentes Optimizadas */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --foreground-rgb: 44, 36, 25; /* Cafe */
+  --background-start-rgb: 250, 247, 242; /* Crema */
+  --background-end-rgb: 250, 247, 242;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 15, 15, 30; /* Azul Noche */
+    --background-end-rgb: 15, 15, 30;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  font-family: var(--font-montserrat), sans-serif;
+  overflow-x: hidden; /* Evita scroll horizontal accidental */
+}
+
+/* =========================================
+   ANIMACIONES TROPICAL LUXE
+   ========================================= */
+
+/* 1. Vapor del Horno (Steam Rise) */
+@keyframes steam-rise {
+  0% { transform: translateY(0) scaleX(1); opacity: 0; }
+  15% { opacity: 0.8; }
+  50% { transform: translateY(-40px) scaleX(1.5); opacity: 0.5; }
+  100% { transform: translateY(-80px) scaleX(2); opacity: 0; }
+}
+
+.steam-particle {
+  @apply absolute w-8 h-8 bg-white/40 rounded-full blur-xl pointer-events-none;
+  animation: steam-rise 3s ease-out infinite;
+}
+.steam-delay-1 { animation-delay: 0s; }
+.steam-delay-2 { animation-delay: 1s; }
+.steam-delay-3 { animation-delay: 2s; }
+
+/* 2. Palmeras Meciéndose (Palm Sway) */
+@keyframes palm-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.palm-decoration {
+  animation: palm-sway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* 3. Pulso Lightning (Lightning Pulse) */
+@keyframes lightning-pulse {
+  0%, 95% { opacity: 0.5; filter: brightness(1); }
+  5%, 10% { opacity: 1; filter: brightness(2); box-shadow: 0 0 15px var(--neon-cian); }
+}
+.lightning-pulse {
+  animation: lightning-pulse 3s infinite;
+}
+
+/* 4. Gradiente Rotatorio (Gradient Rotate) */
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient-rotate {
+  background-size: 200% 200%;
+  animation: gradient-rotate 4s ease infinite;
+}
+
+/* =========================================
+   UTILIDADES VISUALES
+   ========================================= */
+
+/* Glassmorphism Tropical Luxe */
+.glass-card-day {
+  @apply bg-white/90 backdrop-blur-md border border-terracota/30 shadow-lg;
+}
+.glass-card-night {
+  @apply bg-[#0F0F1E]/95 backdrop-blur-xl border border-neon-cian/40 shadow-[0_0_20px_rgba(0,245,212,0.15)];
+}
+
+/* Overlays de Textura */
+.palm-overlay {
+  background-image: url('/textures/palm-pattern.svg');
+  background-repeat: repeat;
+  background-size: 300px;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.dark .palm-overlay {
+  mix-blend-mode: overlay;
+  opacity: 0.08;
+}
+
+.brick-overlay {
+  background-image: url('/textures/brick-colonial.svg');
+  background-repeat: repeat;
+  background-size: 200px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* Scrollbar personalizada sutil */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #E07A5F; /* Terracota */
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb { background: #00F5D4; /* Neon Cian */ }
+::-webkit-scrollbar-thumb:hover { background: #D4AF37; /* Dorado */ }
