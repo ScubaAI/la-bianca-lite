@@ -109,8 +109,7 @@ body {
 
 /* Glassmorphism Tropical Salsa */
 .glass-card-day {
-  @apply bg-white/80 backdrop-blur-md border border-colors-terracota/20 shadow-lg;
-  border-color: rgba(var(--terracota), 0.2);
+  @apply bg-white/80 backdrop-blur-md border border-terracota/20 shadow-lg;
 }
 .dark .glass-card-day {
   /* Mutación automática si se usa la clase genérica */
