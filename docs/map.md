@@ -1,9 +1,9 @@
 # Project Map - La Bianca Lite
 
 ## Overview
-Landing page for Bianca's baking classes.
+Landing page for La Bianca Tropical - Italian restaurant with Bitcoin Lightning acceptance.
 
-## Status (as of 2026-05-27)
+## Status (as of 2026-06-02)
 - Project initialized with Next.js, Tailwind CSS, Framer Motion, next-themes.
 - Dependencies installed (package.json present).
 - Environment example present.
@@ -13,9 +13,9 @@ Landing page for Bianca's baking classes.
 ## Directory Structure
 - /app: Root layout, main page, and providers (theme).
 - /components: Reusable UI components.
-  - /landing: Landing page sections (HeroSection, BookingSection, LightningQR, TrustBadge, etc.)
-  - /ui: Shared UI components (ArcadeButton)
-  - /layout: Layout components (Footer)
+  - /landing: Landing page sections (HeroSection, BookingSection, LightningQR, TrustBadge, Cartelera).
+  - /ui: Shared UI components (ArcadeButton).
+  - /layout: Layout components (Navbar, Footer).
 - /public: Static assets.
 - /lib: Utility functions.
 - /docs: Documentation (this folder).
@@ -23,10 +23,11 @@ Landing page for Bianca's baking classes.
 ## Key Files Created
 - components/ui/arcade-button.tsx: Animated arcade-style button with hover/tap effects.
 - components/landing/LightningQR.tsx: Component to display Lightning Network QR code with wallet address.
+- components/landing/Cartelera.tsx: Events calendar section.
+- components/layout/Navbar.tsx: Fixed top navigation with language selector (ES/IT/EN).
 - app/providers.tsx: Theme provider wrapper using next-themes (ready for use).
 - components/layout/Footer.tsx: Responsive footer with branding, location links, contact/social, and copyright.
 - Updated components/landing/HeroSection.tsx: Background images changed to Unsplash placeholders (day: rustic restaurant, night: party/lights).
-- Updated app/page.tsx: Import and use the Footer component; removed simple footer.
 
 ## Configuration Files
 - next.config.mjs: Next.js configuration.
@@ -47,4 +48,5 @@ Ready for deployment on Vercel.
 - Replace placeholder images in public/images/ with actual assets.
 - Update environment variables (.env.local) with Bitcoin wallet address and Cal.com link.
 - Customize content in landing page sections.
+- Implement i18n logic for language selector in Navbar.
 - Deploy.

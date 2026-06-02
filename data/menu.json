@@ -1,0 +1,223 @@
+{
+  "secciones": [
+    {
+      "id": "entradas",
+      "titulo": "Entradas",
+      "icono": "🥗",
+      "items": [
+        {
+          "nombre": "Bruschetta Pomodoro",
+          "descripcion": "Pan artesanal tostado con tomates frescos, albahaca y aceite de oliva extra virgen",
+          "precio": "$8.50",
+          "badges": ["Vegetariano"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Carpaccio di Manzo",
+          "descripcion": "Finas láminas de res con rúcula, parmesano y alcapas marinadas",
+          "precio": "$12.00",
+          "badges": ["Clásico"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Suprema Calamares",
+          "descripcion": "Aros de calamar rebozados con salsa tártara y limón",
+          "precio": "$10.50",
+          "badges": ["Popular"],
+          "recomendado": false
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    },
+    {
+      "id": "pastas",
+      "titulo": "Pastas",
+      "icono": "🍝",
+      "items": [
+        {
+          "nombre": "Lasagna Bolognesa",
+          "descripcion": "Capas de pasta fresca con ragú de carne, bechamel y gratinado de parmesano",
+          "precio": "$14.00",
+          "badges": ["Recomendado", "Clásico"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Penne Arrabbiata",
+          "descripcion": "Penne en salsa de tomates cherry, ajo, guindilla y perejil fresco",
+          "precio": "$11.00",
+          "badges": ["Picante"],
+          "recomendado": false
+        },
+        {
+          "nombre": "Ravioli Ricotta e Spinaci",
+          "descripcion": "Pasta rellena de ricotta y espinacas con mantequilla de salvia",
+          "precio": "$13.50",
+          "badges": ["Vegetariano"],
+          "recomendado": true
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    },
+    {
+      "id": "pizzas",
+      "titulo": "Pizzas",
+      "icono": "🍕",
+      "items": [
+        {
+          "nombre": "Margherita DOP",
+          "descripcion": "Salsa San Marzano, mozzarella di bufala, albahaca fresca y aceite de oliva",
+          "precio": "$12.00",
+          "badges": ["Vegetariano", "Clásico"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Diavola",
+          "descripcion": "Salami picante, mozzarella, pimientos asados y orégano",
+          "precio": "$14.00",
+          "badges": ["Picante"],
+          "recomendado": false
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    },
+    {
+      "id": "cocteles",
+      "titulo": "Cócteles",
+      "icono": "🍹",
+      "items": [
+        {
+          "nombre": "Mojito Clásico",
+          "descripcion": "Ron blanco, menta fresca, lima, azúcar de caña y soda",
+          "precio": "$9.00",
+          "badges": ["Clásico"],
+          "recomendado": true,
+          "subcategoria": "clasicos"
+        },
+        {
+          "nombre": "Caipirinha",
+          "descripcion": "Cachaça, lima, azúcar y hielo triturado",
+          "precio": "$9.00",
+          "badges": ["Clásico", "Potente"],
+          "recomendado": false,
+          "subcategoria": "clasicos"
+        },
+        {
+          "nombre": "Piña Colada Tropical",
+          "descripcion": "Ron, crema de coco, jugo de piña fresco y un toque de canela",
+          "precio": "$10.00",
+          "badges": ["Tropical", "Dulce"],
+          "recomendado": true,
+          "subcategoria": "tropicales"
+        },
+        {
+          "nombre": "Maracuyá Mambo",
+          "descripcion": "Vodka, puré de maracuyá, jugo de naranja y un splash de granadina",
+          "precio": "$10.50",
+          "badges": ["Tropical", "Refrescante"],
+          "recomendado": false,
+          "subcategoria": "tropicales"
+        },
+        {
+          "nombre": "Mezcal Paloma",
+          "descripcion": "Mezcal joven, jugo de toronja, lima y un toque de sal de gusano",
+          "precio": "$11.00",
+          "badges": ["Mezcal", "Artisanal"],
+          "recomendado": true,
+          "subcategoria": "mezcals-tequilas"
+        },
+        {
+          "nombre": "Tequila Sunrise",
+          "descripcion": "Tequila reposado, jugo de naranja y granadina con hielo",
+          "precio": "$10.00",
+          "badges": ["Tequila", "Colorido"],
+          "recomendado": false,
+          "subcategoria": "mezcals-tequilas"
+        },
+        {
+          "nombre": "Mocktail Maracuyá",
+          "descripcion": "Puré de maracuyá, jugo de piña, ginger ale y menta",
+          "precio": "$7.50",
+          "badges": ["Sin Alcohol", "Refrescante"],
+          "recomendado": false,
+          "subcategoria": "sin-alcohol"
+        },
+        {
+          "nombre": "Virgin Mojito",
+          "descripcion": "Menta fresca, lima, azúcar de caña y soda. Sin alcohol pero con todo el sabor",
+          "precio": "$6.50",
+          "badges": ["Sin Alcohol", "Vegetariano"],
+          "recomendado": true,
+          "subcategoria": "sin-alcohol"
+        }
+        // TODO: Completar con los 44 items reales de cócteles del cliente
+      ]
+    },
+    {
+      "id": "platos-fuertes",
+      "titulo": "Platos Fuertes",
+      "icono": "🍖",
+      "items": [
+        {
+          "nombre": "Ossobuco alla Milanese",
+          "descripcion": "Crujiente por fuera, tierno por dentro. Acompañado de risotto al azafrán",
+          "precio": "$22.00",
+          "badges": ["Recomendado", "Clásico"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Milanesa Napolitana",
+          "descripcion": "Filete de res empanizado con jamón, queso y salsa de tomate",
+          "precio": "$16.00",
+          "badges": ["Popular"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Pollo al Cacciatore",
+          "descripcion": "Pollo salteado con champiñones, pimientos y vino blanco",
+          "precio": "$18.00",
+          "badges": ["Clásico"],
+          "recomendado": false
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    },
+    {
+      "id": "postres",
+      "titulo": "Postres",
+      "icono": "🍰",
+      "items": [
+        {
+          "nombre": "Tiramisú Clásico",
+          "descripcion": "Capas de bizcocho café, mascarpone y cacao amargo",
+          "precio": "$8.00",
+          "badges": ["Clásico", "Recomendado"],
+          "recomendado": true
+        },
+        {
+          "nombre": "Panna Cotta",
+          "descripcion": "Nata cuajada con salsa de frutos rojos de temporada",
+          "precio": "$7.50",
+          "badges": ["Vegetariano"],
+          "recomendado": false
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    },
+    {
+      "id": "bebidas",
+      "titulo": "Bebidas",
+      "icono": "🥤",
+      "items": [
+        {
+          "nombre": "Limonada de la Casa",
+          "descripcion": "Limones frescos, menta y un toque de jengibre",
+          "precio": "$4.00",
+          "badges": ["Sin Alcohol", "Refrescante"],
+          "recomendado": false
+        }
+        // TODO: Completar con items reales del cliente
+      ]
+    }
+    // TODO: Agregar más categorías según el menú real del restaurante
+  ]
+}
