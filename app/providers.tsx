@@ -8,9 +8,10 @@ export function Providers({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange={false} // Permitir transiciones suaves
+      // Quitamos 'system' para controlar nosotros el flujo horario
+      defaultTheme="light" 
+      enableSystem={false} 
+      disableTransitionOnChange={false} // Mantener para transiciones suaves animadas
       {...props}
     >
       {children}

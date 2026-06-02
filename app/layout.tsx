@@ -8,6 +8,7 @@ import {
 } from 'next/font/google';
 import "./globals.css";
 import { Providers } from "./providers";
+import { ThemeTimeWatcher } from "@/components/layout/ThemeTimeWatcher";
 
 const playfair = Playfair_Display({ 
   subsets: ['latin'], 
@@ -65,6 +66,8 @@ export default function RootLayout({
         antialiased
       `}>
         <Providers>
+          <ThemeTimeWatcher />
+          
           {/* Overlay de textura existente */}
           <div className="fixed inset-0 z-[-1] palm-overlay" aria-hidden="true" />
           

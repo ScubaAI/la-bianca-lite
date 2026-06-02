@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // Habilita modo oscuro manual/automático
+  // Asegura que la mutación Día/Noche use la clase inyectada por el watcher de tiempo
+  darkMode: "class", 
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,86 +11,54 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Paleta Base (Día - Mediterráneo)
-        crema: "#FAF7F2",
-        cafe: "#2C2419",
-        terracota: "#E07A5F",
-        "verde-selva": "#3D5A51",
-        dorado: "#D4AF37",
+        // Mapeo Dinámico v1.1 (Sincronizado perfectamente con globals.css)
+        // Usar formato funcional permite a Tailwind aplicar opacidades (ej: bg-terracota/20)
+        crema: "rgb(var(--background-start-rgb) / <alpha-value>)",
+        cafe: "rgb(var(--foreground-rgb) / <alpha-value>)",
         
-        // Paleta Nocturna (Salsa Nights - v1.1)
-        "amber-salsa": "#FFB347",    // Reemplaza neon-cian
-        "rosa-guayaba": "#FF6B9E",   // Reemplaza neon-fucsia
-        "purpura-profundo": "#6B3FA0", // Versión más cálida del púrpura
-        "azul-noche": "#12121A",      // Fondo nocturno (más cálido que #0F0F1E)
-        "azul-profundo": "#1A1A24",   // Superficies nocturnas
+        // Paleta de Marca Compartida (Centralizada a variables CSS para reactividad)
+        terracota: "rgb(var(--terracota) / <alpha-value>)",
+        "verde-selva": "rgb(var(--verde-selva) / <alpha-value>)",
+        dorado: "rgb(var(--dorado) / <alpha-value>)",
         
-        // Legacy (mantengo temporalmente para compatibilidad)
-        // TODO: Eliminar después de migrar componentes
-        "neon-fucsia": "#FF6B9E",   // Ahora apunta a rosa-guayaba
-        "neon-cian": "#FFB347",     // Ahora apunta a amber-salsa
-        purpura: "#6B3FA0",         // Ahora apunta a purpura-profundo
+        // Paleta Nocturna Explícita (Salsa Nights)
+        "amber-salsa": "rgb(var(--amber-salsa) / <alpha-value>)",
+        "rosa-guayaba": "rgb(var(--rosa-guayaba) / <alpha-value>)",
+        "purpura-profundo": "rgb(var(--purpura-profundo) / <alpha-value>)",
+        "azul-noche": "#12121A",      // Fondo base noche estático
+        "azul-profundo": "#1A1A24",   // Superficies / Cards noche estáticas
+        
+        // Capa de Compatibilidad de Tokens (Mapeo limpio para no romper componentes heredados)
+        "neon-fucsia": "rgb(var(--rosa-guayaba) / <alpha-value>)",
+        "neon-cian": "rgb(var(--amber-salsa) / <alpha-value>)",
+        purpura: "rgb(var(--purpura-profundo) / <alpha-value>)",
       },
       fontFamily: {
-        // Nuevo: Anton para títulos festivos
+        // Mapeo exacto de las fuentes oficiales inyectadas en layout.tsx
         anton: ["var(--font-anton)", "sans-serif"],
         playfair: ["var(--font-playfair)", "serif"],
         cormorant: ["var(--font-cormorant)", "serif"],
         inter: ["var(--font-inter)", "sans-serif"],
         "space-grotesk": ["var(--font-space-grotesk)", "monospace"],
         
-        // Legacy (mantengo para compatibilidad)
+        // Aliases semánticos para facilitar el desarrollo rápido
+        sans: ["var(--font-inter)", "sans-serif"],
         serif: ["var(--font-playfair)", "serif"],
-        sans: ["var(--font-inter)", "sans-serif"],  // Cambiado de Montserrat a Inter
         mono: ["var(--font-space-grotesk)", "monospace"],
       },
-      animation: {
-        // Animaciones originales
-        "steam-rise": "steam-rise 3s ease-out infinite",
-        "palm-sway": "palm-sway 4s ease-in-out infinite",
-        "lightning-pulse": "lightning-pulse 3s infinite", // Legacy, usar salsa-shine
-        "gradient-rotate": "gradient-rotate 4s ease infinite",
-        "bounce-slow": "bounce 3s infinite",
-        
-        // Nuevas animaciones v1.1
-        "salsa-shine": "salsa-shine 3s infinite",
-        "pulse-slow": "pulse-slow 2s ease-in-out infinite",
+      boxShadow: {
+        // Traslado de sombras del Design System v1.1 directo a clases útiles
+        "salsa-glow": "0 0 12px rgba(255, 179, 71, 0.3)",
+        "terracota-soft": "0 4px 12px rgba(224, 122, 95, 0.15)",
+        "dorado-border": "inset 0 0 0 1px rgba(212, 175, 55, 0.4)",
       },
-      keyframes: {
-        // Animaciones originales
-        "steam-rise": {
-          "0%": { transform: "translateY(0) scaleX(1)", opacity: "0" },
-          "15%": { opacity: "0.8" },
-          "50%": { transform: "translateY(-40px) scaleX(1.5)", opacity: "0.5" },
-          "100%": { transform: "translateY(-80px) scaleX(2)", opacity: "0" },
-        },
-        "palm-sway": {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" },
-        },
-        "lightning-pulse": {
-          "0%, 95%": { opacity: "0.5" },
-          "5%, 10%": { opacity: "1", filter: "brightness(2)" },
-        },
-        "gradient-rotate": {
-          "0%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-          "100%": { backgroundPosition: "0% 50%" },
-        },
-        
-        // Nuevas animaciones v1.1
-        "salsa-shine": {
-          "0%, 95%": { opacity: "0.6", filter: "brightness(1)" },
-          "5%, 10%": { opacity: "1", filter: "brightness(1.8)", boxShadow: "0 0 15px #FFB347" },
-        },
-        "pulse-slow": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.85" },
-        },
+      animation: {
+        // Extendemos únicamente animaciones estructurales nativas si se requieren en componentes sueltos
+        "bounce-slow": "bounce 3s infinite",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },

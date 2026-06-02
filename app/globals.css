@@ -2,26 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================
+   SISTEMA DE COLORES (Design System v1.1)
+   ========================================= */
 :root {
-  --foreground-rgb: 44, 36, 25; /* Café Profundo */
-  --background-start-rgb: 250, 247, 242; /* Crema Cálida */
+  /* Mood Diurno: Mediterráneo Colombiano */
+  --foreground-rgb: 44, 36, 25;       /* Café Profundo (#2C2419) */
+  --background-start-rgb: 250, 247, 242; /* Crema Cálida (#FAF7F2) */
   --background-end-rgb: 250, 247, 242;
+
+  /* Colores de Marca Compartidos (Formatos RGB para opacidades con Tailwind) */
+  --terracota: 224, 122, 95;       /* #E07A5F */
+  --verde-selva: 61, 90, 81;       /* #3D5A51 */
+  --dorado: 212, 175, 55;          /* #D4AF37 */
   
-  /* Nuevos colores del design system v1.1 */
-  --terracota: 224, 122, 95;
-  --verde-selva: 61, 90, 81;
-  --dorado: 212, 175, 55;
-  --amber-salsa: 255, 179, 71;
-  --rosa-guayaba: 255, 107, 158;
-  --purpura-profundo: 107, 63, 160;
+  /* Colores Nocturnos (Disponibles globalmente) */
+  --amber-salsa: 255, 179, 71;     /* #FFB347 */
+  --rosa-guayaba: 255, 107, 158;   /* #FF6B9E */
+  --purpura-profundo: 107, 63, 160; /* #6B3FA0 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 18, 18, 26; /* Azul Medianoche (más cálido) */
-    --background-end-rgb: 18, 18, 26;
-  }
+/* CAMBIO CRÍTICO: Controlado por la clase .dark (next-themes + reloj) */
+.dark {
+  /* Mood Nocturno: Salsa Nights */
+  --foreground-rgb: 255, 255, 255;    /* Blanco Puro */
+  --background-start-rgb: 18, 18, 26;  /* Azul Medianoche (#12121A) */
+  --background-end-rgb: 18, 18, 26;
 }
 
 body {
@@ -32,13 +38,14 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-  font-family: var(--font-montserrat), sans-serif;
+  /* Ajustado a la tipografía cargada en tu layout.tsx */
+  font-family: var(--font-inter), sans-serif; 
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.2s ease;
 }
 
 /* =========================================
-   ANIMACIONES TROPICAL LUXE (Mantenidas)
+   ANIMACIONES TROPICAL LUXE (Fieles)
    ========================================= */
 
 /* 1. Vapor del Horno (Steam Rise) */
@@ -67,16 +74,16 @@ body {
   transform-origin: bottom center;
 }
 
-/* 3. Pulso Lightning (Actualizado a Salsa Shine) */
+/* 3. Pulso Lightning / Salsa Shine */
 @keyframes salsa-shine {
   0%, 95% { opacity: 0.6; filter: brightness(1); }
-  5%, 10% { opacity: 1; filter: brightness(1.8); box-shadow: 0 0 15px #FFB347; }
+  5%, 10% { opacity: 1; filter: brightness(1.8); box-shadow: 0 0 15px rgb(var(--amber-salsa)); }
 }
 .salsa-shine {
   animation: salsa-shine 3s infinite;
 }
 
-/* 4. Gradiente Rotatorio (Mantenido) */
+/* 4. Gradiente Rotatorio Contenedor QR */
 @keyframes gradient-rotate {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -87,7 +94,7 @@ body {
   animation: gradient-rotate 4s ease infinite;
 }
 
-/* 5. Pulso Suave para QR (Nuevo) */
+/* 5. Pulso Suave para QR */
 @keyframes pulse-slow {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.85; }
@@ -97,42 +104,53 @@ body {
 }
 
 /* =========================================
-   UTILIDADES VISUALES (Actualizadas v1.1)
+   UTILIDADES VISUALES Y COMPONENTES v1.1
    ========================================= */
 
 /* Glassmorphism Tropical Salsa */
 .glass-card-day {
-  @apply bg-white/80 backdrop-blur-md border border-terracota/20 shadow-lg;
+  @apply bg-white/80 backdrop-blur-md border border-colors-terracota/20 shadow-lg;
+  border-color: rgba(var(--terracota), 0.2);
 }
+.dark .glass-card-day {
+  /* Mutación automática si se usa la clase genérica */
+  @apply bg-[#1A1A24]/90 backdrop-blur-xl shadow-[0_0_20px_rgba(255,179,71,0.15)];
+  border-color: rgba(var(--amber-salsa), 0.3);
+}
+
+/* Si prefieres usar clases explícitas por separado */
 .glass-card-night {
-  @apply bg-[#1A1A24]/90 backdrop-blur-xl border border-amber-salsa/30 shadow-[0_0_20px_rgba(255,179,71,0.15)];
+  @apply bg-[#1A1A24]/90 backdrop-blur-xl shadow-[0_0_20px_rgba(255,179,71,0.15)];
+  border: 1px solid rgba(var(--amber-salsa), 0.3);
 }
 
 /* Componente: Sede Selector */
 .sede-card {
-  background: rgba(224, 122, 95, 0.08);
+  background: rgba(var(--terracota), 0.08);
   border-left: 4px solid rgb(var(--dorado));
   transition: all 0.25s ease;
   cursor: pointer;
 }
 .sede-card:hover {
-  background: rgba(224, 122, 95, 0.15);
+  background: rgba(var(--terracota), 0.15);
   transform: translateX(6px);
   border-left-width: 6px;
 }
 .sede-card.active {
-  background: rgba(224, 122, 95, 0.2);
+  background: rgba(var(--terracota), 0.2);
   border-left-color: rgb(var(--terracota));
 }
+
+/* Variación Nocturna Sede Selector */
 .dark .sede-card {
-  background: rgba(255, 179, 71, 0.08);
+  background: rgba(var(--amber-salsa), 0.08);
   border-left-color: rgb(var(--amber-salsa));
 }
 .dark .sede-card:hover {
-  background: rgba(255, 179, 71, 0.15);
+  background: rgba(var(--amber-salsa), 0.15);
 }
 .dark .sede-card.active {
-  background: rgba(255, 179, 71, 0.2);
+  background: rgba(var(--amber-salsa), 0.2);
   border-left-color: rgb(var(--amber-salsa));
 }
 
@@ -144,7 +162,7 @@ body {
   animation: pulse-slow 2s ease-in-out infinite;
 }
 .dark .badge-live {
-  box-shadow: 0 0 12px rgba(255, 179, 71, 0.5);
+  box-shadow: 0 0 12px rgba(var(--amber-salsa), 0.5);
 }
 
 /* Badge Bitcoin Accepted */
@@ -155,17 +173,17 @@ body {
 }
 .dark .badge-bitcoin {
   border: 1px solid rgb(var(--amber-salsa));
-  box-shadow: 0 0 8px rgba(255, 179, 71, 0.3);
+  box-shadow: 0 0 8px rgba(var(--amber-salsa), 0.3);
 }
 
 /* QR Container */
 .qr-container {
-  @apply bg-white p-4 rounded-xl shadow-lg max-w-[180px];
+  @apply bg-white p-4 rounded-xl shadow-lg max-w-[180px] transition-colors duration-300;
   border: 2px solid rgb(var(--dorado));
 }
 .dark .qr-container {
   border-color: rgb(var(--amber-salsa));
-  box-shadow: 0 0 20px rgba(255, 179, 71, 0.2);
+  box-shadow: 0 0 20px rgba(var(--amber-salsa), 0.2);
 }
 
 /* Wallet Address */
@@ -174,13 +192,13 @@ body {
   font-size: 0.75rem;
   word-break: break-all;
   user-select: all;
-  @apply bg-gray-100 p-2 rounded text-gray-800;
+  @apply bg-gray-100 p-2 rounded text-gray-800 transition-colors duration-300;
 }
 .dark .wallet-address {
   @apply bg-gray-900 text-gray-200;
 }
 
-/* Overlays de Textura (Mantenidos) */
+/* Overlays de Textura */
 .palm-overlay {
   background-image: url('/textures/palm-pattern.svg');
   background-repeat: repeat;
@@ -202,7 +220,7 @@ body {
   pointer-events: none;
 }
 
-/* Scrollbar personalizada (Actualizada con nuevos colores) */
+/* Scrollbar personalizada */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -212,15 +230,13 @@ body {
 .dark ::-webkit-scrollbar-thumb { background: rgb(var(--amber-salsa)); }
 ::-webkit-scrollbar-thumb:hover { background: rgb(var(--dorado)); }
 
-/* Selection styles */
-::selection { background: rgb(var(--terracota)); color: white; }
-.dark ::selection { background: rgb(var(--amber-salsa)); color: rgb(var(--background-start-rgb)); }
+/* Selección de texto */
+::selection { background: rgba(var(--terracota), 0.8); color: white; }
+.dark ::selection { background: rgba(var(--amber-salsa), 0.8); color: rgb(var(--background-start-rgb)); }
 
 /* =========================================
-   UTILIDADES ADICIONALES
+   ACCESIBILIDAD (Mantenida perfectamente)
    ========================================= */
-
-/* Reducción de movimiento para accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .steam-particle,
   .palm-decoration,
@@ -235,11 +251,7 @@ body {
   }
 }
 
-/* Focus visible (accesibilidad) */
 *:focus-visible {
   outline: 2px solid rgb(var(--amber-salsa));
   outline-offset: 4px;
-}
-.dark *:focus-visible {
-  outline-color: rgb(var(--amber-salsa));
 }
