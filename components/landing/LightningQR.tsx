@@ -29,7 +29,12 @@ const CONFIG = {
 
 type TabId = 'lightning' | 'onchain' | 'fiat';
 
-export function LightningQR() {
+interface LightningQRProps {
+  qrSrc?: string;
+  walletAddr?: string;
+}
+
+export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
   const [activeTab, setActiveTab] = useState<TabId>('lightning');
   const [copied, setCopied] = useState(false);
 
@@ -155,13 +160,13 @@ export function LightningQR() {
                       <div className="bg-white dark:bg-[#12121A] rounded-xl p-4">
                         <div className="relative w-48 h-48 mx-auto">
                           {/* TODO: Reemplazar src con el QR real de Blink */}
-                          <Image 
-                            src={CONFIG.lightningQrSrc} 
-                            alt="QR Código Lightning Network" 
-                            fill
-                            className="object-contain"
-                            priority
-                          />
+                           <Image 
+                             src={qrSrc || CONFIG.lightningQrSrc} 
+                             alt="QR Código Lightning Network" 
+                             fill
+                             className="object-contain"
+                             priority
+                           />
                         </div>
                       </div>
                       
@@ -176,16 +181,16 @@ export function LightningQR() {
                     <p className="font-inter text-xs text-[#2C2419]/60 dark:text-white/50 uppercase tracking-widest">
                       O usa Lightning Address:
                     </p>
-                    <button
-                      onClick={() => handleCopy(CONFIG.lightningAddress)}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg 
-                                 bg-[#E8DDD0]/50 dark:bg-white/5 border border-[#E07A5F]/20 
-                                 font-space-grotesk text-xs text-[#2C2419] dark:text-[#FFB347] 
-                                 hover:bg-[#E07A5F]/10 dark:hover:bg-[#FFB347]/10 transition-colors"
-                    >
-                      {CONFIG.lightningAddress}
-                      {copied ? <Check size={12} /> : <Copy size={12} />}
-                    </button>
+                     <button
+                       onClick={() => handleCopy(walletAddr || CONFIG.lightningAddress)}
+                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg 
+                                  bg-[#E8DDD0]/50 dark:bg-white/5 border border-[#E07A5F]/20 
+                                  font-space-grotesk text-xs text-[#2C2419] dark:text-[#FFB347] 
+                                  hover:bg-[#E07A5F]/10 dark:hover:bg-[#FFB347]/10 transition-colors"
+                     >
+                       {walletAddr || CONFIG.lightningAddress}
+                       {copied ? <Check size={12} /> : <Copy size={12} />}
+                     </button>
                   </div>
                 </motion.div>
               )}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import menuData from "@/../data/menu.json";
+import menuData from "@/data/menu.json";
 import { MenuCategoryNav } from "@/components/ui/MenuCategoryNav";
 import { MenuItemCard } from "@/components/ui/MenuItemCard";
 import { cn } from "@/lib/utils";
