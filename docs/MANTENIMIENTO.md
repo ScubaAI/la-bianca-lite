@@ -2,6 +2,54 @@
 
 Este documento registra cambios significativos, decisiones arquitectónicas y correcciones de bugs en el proyecto **La Bianca Lite**.
 
+## [2026-06-05] - Sprint "Tropical Luxe Polish"
+### 📋 Resumen Ejecutivo
+Se realizó una auditoría integral de UI/UX y lógica de negocio bajo la estética "Tropical Luxe Salsa Edition v1.1". Se corrigieron bugs críticos de legibilidad y estado, se integraron nuevos requisitos de negocio (Sponsor Bull Bitcoin) y se estandarizó el Design System en CSS y Tailwind.
+
+### 🔧 Cambios por Módulo
+
+#### 1. Hero Section (`HeroSection.tsx`)
+- **Fix Legibilidad Diurna:** Contenedor glassmorphic (`bg-white/85 backdrop-blur-xl`) para encapsular texto y solucionar contraste.
+- **Palmeras:** Opacidad aumentada a 0.6 en día + `drop-shadow-md`.
+- **Atmósfera:** Overlay crema reforzado (`mix-blend-multiply`).
+
+#### 2. Navbar (`Navbar.tsx`)
+- **Visibilidad:** Cambiado a `fixed` + gradiente `from-white/90`.
+- **Logo:** SVG optimizado con punto decorativo animado.
+- **Selector Idioma:** Dropdown con animación `scale` y glassmorphism.
+
+#### 3. Menú (`MenuSection.tsx`)
+- 🐛 **Bug Crítico:** Corregido error de renderizado al alternar categorías con/sin subcategorías usando `useMemo`.
+- **UI:** Botones de subcategorías con estados activos claros.
+
+#### 4. Reservas (`BookingSection.tsx`)
+- **Layout:** Grid 2 columnas (Texto Izq / Cal.com Der).
+- **Fix Cal.com:** Contenedor con `min-h-[600px]` y `overflow-hidden`.
+- **Narrativa:** Copy de marca con tipografías Playfair y Cormorant.
+
+#### 5. Cartelera (`Cartelera.tsx`)
+- **Datos:** Evento dominical ajustado a "Brunch Musical".
+- **Estética:** Hover `-translate-y-1` y badges dinámicos.
+- **Contraste:** Fondo nocturno `bg-[#1A1A24]/95`.
+
+#### 6. Pagos (`LightningQR.tsx`)
+- **Estrategia 4 Niveles:** Blink POS → Lightning Address → On-Chain → Mercado Pago.
+- **Design System:** Tokens oficiales (Amber Salsa, Verde Selva).
+- **Feedback:** Vibración háptica al copiar.
+
+#### 7. Footer (`Footer.tsx`)
+- **Sponsor:** Botón Bull Bitcoin con enlace a Play Store.
+- **Mapas:** Links actualizados + efecto slide-on-hover.
+- **Redes:** Iconos Lucide React.
+
+#### 8. Infraestructura (`globals.css` & `tailwind.config.ts`)
+- **CSS Variables:** Tokens RGB sincronizados.
+- **Firefox:** `scrollbar-color` añadido.
+- **Accesibilidad:** `prefers-reduced-motion` reforzado.
+- **Tailwind:** Sombras `salsa-glow`, `terracota-soft`.
+
+---
+
 ## [2026-05-28] - Initial Commit & Lite Launch
 ### 🚀 Features
 - **Landing Page Completa:** Hero inmersivo, sección de reservas Cal.com y pagos Bitcoin estáticos.

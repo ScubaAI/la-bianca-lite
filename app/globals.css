@@ -32,16 +32,13 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
   /* Ajustado a la tipografía cargada en tu layout.tsx */
   font-family: var(--font-inter), sans-serif; 
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.2s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* =========================================
@@ -109,15 +106,13 @@ body {
 
 /* Glassmorphism Tropical Salsa */
 .glass-card-day {
-  @apply bg-white/80 backdrop-blur-md border border-terracota/20 shadow-lg;
+  @apply bg-white/80 backdrop-blur-md border border-[#E07A5F]/20 shadow-lg;
 }
 .dark .glass-card-day {
-  /* Mutación automática si se usa la clase genérica */
   @apply bg-[#1A1A24]/90 backdrop-blur-xl shadow-[0_0_20px_rgba(255,179,71,0.15)];
   border-color: rgba(var(--amber-salsa), 0.3);
 }
 
-/* Si prefieres usar clases explícitas por separado */
 .glass-card-night {
   @apply bg-[#1A1A24]/90 backdrop-blur-xl shadow-[0_0_20px_rgba(255,179,71,0.15)];
   border: 1px solid rgba(var(--amber-salsa), 0.3);
@@ -219,7 +214,7 @@ body {
   pointer-events: none;
 }
 
-/* Scrollbar personalizada */
+/* Scrollbar personalizada (Cross-browser) */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -228,6 +223,15 @@ body {
 }
 .dark ::-webkit-scrollbar-thumb { background: rgb(var(--amber-salsa)); }
 ::-webkit-scrollbar-thumb:hover { background: rgb(var(--dorado)); }
+
+/* Soporte para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--terracota)) transparent;
+}
+.dark * {
+  scrollbar-color: rgb(var(--amber-salsa)) transparent;
+}
 
 /* Selección de texto */
 ::selection { background: rgba(var(--terracota), 0.8); color: white; }

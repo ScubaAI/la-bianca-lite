@@ -9,22 +9,27 @@ import {
   Check, 
   CreditCard, 
   ExternalLink, 
-  Info 
+  Layers, 
+  Coins,
+  ShieldCheck
 } from "lucide-react";
 
-//  CONFIGURACIÓN - REEMPLAZAR CON DATOS REALES
+// CONFIGURACIÓN REAL INTEGRADA CON REDUNDANCIA NUCLEAR
 const CONFIG = {
-  // QR estático de Blink Wallet (Lightning)
-  lightningQrSrc: "/images/blink-qr-placeholder.png", 
+  // 1. Lightning Link para el POS del mesero (Blink)
+  blinkPosLink: "https://pay.blink.sv/aceptabitcoin?amount=0&memo=&display=MXN",
   
-  // Dirección LNURL o Lightning Address (ej: labianca@blink.sv)
-  lightningAddress: "tu-lnurl-o-lightning-address@blink.sv", 
+  // 2. Lightning Address (Capa estática redundante)
+  lightningAddress: "aceptabitcoin@blink.sv", 
   
-  // Dirección Bitcoin On-Chain proporcionada por el cliente
+  // 3. QR Estático de Blink guardado localmente en tus assets
+  lightningQrSrc: "/images/bitcoin-qr.jpg", 
+  
+  // 4. Dirección Bitcoin On-Chain base (Seguridad Absoluta)
   onChainAddress: "bc1qg6r7xugjlr4yzrqu5nal526e757pe3hnkp2jlg",
   
-  // Link de pago de Mercado Pago
-  mercadoPagoLink: "https://mpago.la/tu-link-de-pago",
+  // 5. Opción Nuclear Fiat: Link directo al POS de Mercado Pago
+  mercadoPagoLink: "https://link.mercadopago.com.mx/skinlabclothingclub",
 };
 
 type TabId = 'lightning' | 'onchain' | 'fiat';
@@ -43,9 +48,9 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       
-      // Vibración háptica en móviles
+      // Vibración háptica en móviles (Feedback de caja registradora real)
       if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(40);
       }
       
       setTimeout(() => setCopied(false), 2000);
@@ -55,50 +60,56 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
   };
 
   const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
-    { id: 'lightning', label: 'Lightning', icon: <Zap size={16} /> },
-    { id: 'onchain', label: 'On-Chain', icon: <Info size={16} /> },
-    { id: 'fiat', label: 'Tarjetas', icon: <CreditCard size={16} /> },
+    { id: 'lightning', label: 'Lightning (Rápido)', icon: <Zap size={16} /> },
+    { id: 'onchain', label: 'Capa Base On-Chain', icon: <Coins size={16} /> },
+    { id: 'fiat', label: 'Tarjeta / SPEI', icon: <CreditCard size={16} /> },
   ];
 
   return (
-    <section className="py-20 px-4 bg-[#FAF7F2] dark:bg-[#12121A] transition-colors duration-500">
-      <div className="container mx-auto max-w-3xl text-center">
+    <section id="pagos" className="relative py-24 px-4 bg-[#FAF7F2] dark:bg-[#12121A] transition-colors duration-1000 overflow-hidden">
+      {/* Textura de fondo sutil */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('/textures/brick-pattern.png')] mix-blend-multiply dark:mix-blend-screen" aria-hidden="true" />
+
+      <div className="container mx-auto max-w-4xl text-center relative z-10">
         
-        {/* Encabezado */}
+        {/* Encabezado con Identidad de Marca */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10"
+          className="mb-12"
         >
-          <h2 className="font-playfair text-4xl md:text-5xl text-[#2C2419] dark:text-[#D4AF37] mb-4">
-            Paga con <span className="text-[#E07A5F] dark:text-[#FFB347]">Libertad</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3D5A51]/10 text-[#3D5A51] dark:bg-[#3D5A51]/20 dark:text-[#FFB347] text-xs font-space-grotesk font-bold tracking-wider uppercase mb-4 border border-[#3D5A51]/20 dark:border-[#FFB347]/20">
+            <Layers size={12} /> Redundancia Total Anti-Fallos Activa
+          </div>
+          <h2 className="font-playfair text-4xl md:text-5xl text-[#2C2419] dark:text-[#D4AF37] mb-4 drop-shadow-sm transition-colors duration-500">
+            Del Horno a la Pista, <br className="sm:hidden"/> Paga con <span className="text-[#E07A5F] dark:text-[#FFB347] italic font-cormorant">Libertad</span>
           </h2>
-          <p className="font-inter text-[#2C2419]/80 dark:text-white/70 max-w-lg mx-auto">
-            Rápido, seguro y sin fronteras. Elige tu método favorito.
+          <p className="font-inter text-base text-[#2C2419]/80 dark:text-white/70 max-w-lg mx-auto transition-colors duration-500">
+            ¿Un corte de pasarela tradicional? Jamás detendrá la pizza ni la salsa. Elige tu canal preferido de pago.
           </p>
         </motion.div>
 
-        {/* Contenedor Principal Glassmorphism */}
+        {/* Contenedor Principal con Glassmorphism del Design System */}
         <motion.div 
-          initial={{ scale: 0.95, opacity: 0 }}
+          initial={{ scale: 0.98, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.1 }}
           className="relative overflow-hidden rounded-3xl 
                      bg-white/80 dark:bg-[#1A1A24]/90 backdrop-blur-xl 
                      border border-[#E07A5F]/20 dark:border-[#FFB347]/30 
-                     shadow-lg dark:shadow-[0_0_20px_rgba(255,179,71,0.1)]"
+                     shadow-[0_8px_32px_rgba(44,36,25,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
         >
           
-          {/* Tabs de Navegación */}
-          <div className="flex p-2 gap-2 bg-[#E8DDD0]/30 dark:bg-black/20">
+          {/* Tabs con navegación fluida */}
+          <div className="flex flex-col sm:flex-row p-2 gap-2 bg-[#E8DDD0]/40 dark:bg-black/40 border-b border-[#E07A5F]/10 dark:border-white/5">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`relative flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl 
-                           font-inter text-sm font-semibold transition-all duration-300
+                           font-space-grotesk text-xs md:text-sm font-bold transition-all duration-300
                            ${activeTab === tab.id 
                              ? 'text-white dark:text-[#12121A]' 
                              : 'text-[#2C2419]/60 dark:text-white/50 hover:text-[#2C2419] dark:hover:text-white'
@@ -108,7 +119,7 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
                   <motion.div
                     layoutId="activeTab"
                     className="absolute inset-0 bg-[#E07A5F] dark:bg-[#FFB347] rounded-xl shadow-md"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                   />
                 )}
                 <span className="relative z-10 flex items-center gap-2">
@@ -119,158 +130,166 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
             ))}
           </div>
 
-          {/* Contenido de las Tabs */}
-          <div className="p-6 md:p-10 min-h-[400px] flex flex-col items-center justify-center">
+          {/* Área de visualización */}
+          <div className="p-6 md:p-12 min-h-[420px] flex flex-col items-center justify-center">
             <AnimatePresence mode="wait">
               
-              {/* TAB 1: LIGHTNING */}
+              {/* TAB 1: LIGHTNING NETWORK */}
               {activeTab === 'lightning' && (
                 <motion.div
                   key="lightning"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full max-w-sm"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full max-w-sm flex flex-col items-center"
                 >
-                  {/* Efecto Steam-Rise detrás del QR */}
-                  <div className="relative inline-block">
-                    <div className="absolute -inset-4 opacity-30 pointer-events-none">
+                  {/* Link del POS Dinámico para el Mesero o Cliente */}
+                  <a
+                    href={CONFIG.blinkPosLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full mb-6 py-3.5 px-6 rounded-xl bg-[#FFB347] hover:bg-[#ffa31a] dark:bg-[#FFB347] dark:hover:bg-[#ffa31a] text-[#12121A] font-space-grotesk font-bold text-sm flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(255,179,71,0.2)] transition-all transform hover:-translate-y-0.5"
+                  >
+                    <Zap size={16} fill="currentColor" />
+                    Abrir Terminal de Cobro (Blink POS)
+                    <ExternalLink size={14} />
+                  </a>
+
+                  {/* Efecto de vapor tropical detrás del QR */}
+                  <div className="relative inline-block my-2">
+                    <div className="absolute -inset-4 opacity-20 pointer-events-none">
                       {[...Array(3)].map((_, i) => (
                         <motion.div
                           key={i}
-                          className="absolute bottom-0 left-1/2 w-2 h-2 bg-white rounded-full blur-[2px]"
+                          className="absolute bottom-0 left-1/2 w-2 h-2 bg-[#E07A5F] dark:bg-[#FFB347] rounded-full blur-[2px]"
                           initial={{ y: 0, opacity: 0 }}
                           animate={{ 
-                            y: -60, 
-                            opacity: [0, 0.8, 0],
-                            x: Math.sin(i) * 10
+                            y: -70, 
+                            opacity: [0, 1, 0],
+                            x: Math.sin(i) * 12
                           }}
                           transition={{ 
-                            duration: 2 + i * 0.5, 
+                            duration: 2.5 + i * 0.5, 
                             repeat: Infinity, 
                             ease: "easeOut",
-                            delay: i * 0.4
+                            delay: i * 0.5
                           }}
                         />
                       ))}
                     </div>
 
-                    <div className="group relative p-1 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#E07A5F] dark:from-[#FFB347] dark:to-[#FF6B9E] animate-gradient-rotate shadow-xl">
-                      <div className="bg-white dark:bg-[#12121A] rounded-xl p-4">
-                        <div className="relative w-48 h-48 mx-auto">
-                          {/* TODO: Reemplazar src con el QR real de Blink */}
-                           <Image 
-                             src={qrSrc || CONFIG.lightningQrSrc} 
-                             alt="QR Código Lightning Network" 
-                             fill
-                             className="object-contain"
-                             priority
-                           />
+                    {/* QR Estático con Borde Degradado */}
+                    <div className="relative p-1 rounded-2xl bg-gradient-to-br from-[#D4AF37] to-[#E07A5F] dark:from-[#FFB347] dark:to-[#FF6B9E] shadow-lg">
+                      <div className="bg-white p-3 rounded-xl">
+                        <div className="relative w-44 h-44">
+                          <Image 
+                            src={qrSrc || CONFIG.lightningQrSrc} 
+                            alt="Blink QR Estático La Bianca" 
+                            fill
+                            className="object-contain"
+                            priority
+                          />
                         </div>
                       </div>
-                      
-                      <div className="absolute -top-3 -right-3 bg-[#3D5A51] text-white text-xs font-space-grotesk font-bold px-3 py-1.5 rounded-full shadow-lg animate-pulse-slow flex items-center gap-1">
-                        <Zap size={12} fill="currentColor" />
-                        LIGHTNING
+                      <div className="absolute -top-2.5 -right-2.5 bg-[#3D5A51] text-white text-[10px] font-space-grotesk font-bold px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
+                        QR ESTÁTICO
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-6 space-y-2">
-                    <p className="font-inter text-xs text-[#2C2419]/60 dark:text-white/50 uppercase tracking-widest">
-                      O usa Lightning Address:
+                  {/* Redundancia de Respaldo por Dirección */}
+                  <div className="mt-6 w-full space-y-1.5">
+                    <p className="font-inter text-[11px] text-[#2C2419]/60 dark:text-white/50 uppercase tracking-widest">
+                      O envía directo a nuestra Lightning Address:
                     </p>
-                     <button
-                       onClick={() => handleCopy(walletAddr || CONFIG.lightningAddress)}
-                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg 
-                                  bg-[#E8DDD0]/50 dark:bg-white/5 border border-[#E07A5F]/20 
-                                  font-space-grotesk text-xs text-[#2C2419] dark:text-[#FFB347] 
-                                  hover:bg-[#E07A5F]/10 dark:hover:bg-[#FFB347]/10 transition-colors"
-                     >
-                       {walletAddr || CONFIG.lightningAddress}
-                       {copied ? <Check size={12} /> : <Copy size={12} />}
-                     </button>
+                    <button
+                      onClick={() => handleCopy(walletAddr || CONFIG.lightningAddress)}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl 
+                                bg-[#E8DDD0]/40 dark:bg-white/5 border border-[#E07A5F]/10 dark:border-white/10
+                                font-space-grotesk text-xs text-[#2C2419] dark:text-[#FFB347] 
+                                hover:bg-[#E07A5F]/10 dark:hover:bg-[#FFB347]/10 transition-all w-full justify-center group"
+                    >
+                      <span className="truncate">{walletAddr || CONFIG.lightningAddress}</span>
+                      {copied ? <Check size={14} className="text-[#3D5A51] dark:text-[#FFB347] flex-shrink-0" /> : <Copy size={14} className="opacity-60 group-hover:opacity-100 flex-shrink-0 transition-opacity" />}
+                    </button>
                   </div>
                 </motion.div>
               )}
 
-              {/* TAB 2: ON-CHAIN */}
+              {/* TAB 2: BITCOIN ON-CHAIN */}
               {activeTab === 'onchain' && (
                 <motion.div
                   key="onchain"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
                   className="w-full max-w-md text-center"
                 >
-                  <div className="mb-6 p-4 rounded-2xl bg-[#E8DDD0]/30 dark:bg-white/5 border border-dashed border-[#2C2419]/20 dark:border-white/20">
-                    <Info size={32} className="mx-auto mb-2 text-[#E07A5F] dark:text-[#FFB347]" />
-                    <p className="font-inter text-sm text-[#2C2419]/80 dark:text-white/80">
-                      Para pagos directos a la blockchain de Bitcoin.<br/>
-                      <span className="text-xs opacity-70">Confirmaciones: ~10-60 min</span>
+                  <div className="mb-6 p-4 rounded-xl bg-[#E8DDD0]/30 dark:bg-white/5 border border-dashed border-[#E07A5F]/30 dark:border-white/10">
+                    <p className="font-space-grotesk text-xs uppercase tracking-wider text-[#E07A5F] dark:text-[#FFB347] font-bold mb-1 flex items-center justify-center gap-2">
+                      <ShieldCheck size={14} /> Capa Base Inmutable
+                    </p>
+                    <p className="font-inter text-xs text-[#2C2419]/80 dark:text-white/70 leading-relaxed">
+                      Úsala si tu wallet no soporta Lightning o requieres liquidación directa en cadena. <br/>
+                      <span className="opacity-60 font-medium">Liquidación estimada: 10 a 60 minutos.</span>
                     </p>
                   </div>
 
-                  <p className="font-inter text-xs text-[#2C2419]/60 dark:text-white/50 uppercase tracking-widest mb-2">
-                    Dirección BTC (Bech32):
+                  <p className="font-inter text-[11px] text-[#2C2419]/60 dark:text-white/50 uppercase tracking-widest mb-2">
+                    Dirección Bitcoin Segwit Nativo:
                   </p>
                   
                   <button
                     onClick={() => handleCopy(CONFIG.onChainAddress)}
-                    className={`group relative w-full p-4 rounded-xl border-2 transition-all duration-300
+                    className={`group relative w-full p-4 rounded-xl border-2 transition-all duration-300 text-left
                                ${copied 
-                                 ? 'border-[#2E7D64] bg-[#2E7D64]/10' 
-                                 : 'border-[#E07A5F]/30 dark:border-[#FFB347]/30 bg-white/50 dark:bg-[#12121A]/50 hover:border-[#E07A5F] dark:hover:border-[#FFB347]'
+                                 ? 'border-[#3D5A51] bg-[#3D5A51]/5 dark:bg-[#3D5A51]/10' 
+                                 : 'border-[#E07A5F]/20 dark:border-white/10 bg-white/40 dark:bg-[#12121A]/40 hover:border-[#E07A5F] dark:hover:border-[#FFB347]'
                                }`}
                   >
-                    <code className="font-space-grotesk text-sm md:text-base text-[#2C2419] dark:text-[#FFB347] break-all">
+                    <code className="font-space-grotesk text-xs md:text-sm text-[#2C2419] dark:text-[#FFB347] break-all block pr-8 font-medium">
                       {CONFIG.onChainAddress}
                     </code>
                     
-                    <div className={`absolute right-3 top-1/2 -translate-y-1/2 transition-all duration-300
-                                    ${copied ? 'opacity-100 scale-100' : 'opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100'}`}>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
                       {copied ? (
-                        <Check size={20} className="text-[#2E7D64]" />
+                        <Check size={16} className="text-[#3D5A51] dark:text-[#FFB347]" />
                       ) : (
-                        <Copy size={20} className="text-[#E07A5F] dark:text-[#FFB347]" />
+                        <Copy size={16} className="text-[#2C2419]/40 dark:text-white/40 group-hover:text-[#E07A5F] dark:group-hover:text-[#FFB347] transition-colors" />
                       )}
                     </div>
                   </button>
 
                   {copied && (
                     <motion.p 
-                      initial={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="mt-3 text-sm font-inter text-[#2E7D64] font-medium"
+                      className="mt-3 text-xs font-space-grotesk text-[#3D5A51] dark:text-[#FFB347] font-bold"
                     >
-                      ✓ ¡Dirección copiada al portapapeles!
+                      ✓ ¡Dirección On-Chain copiada con éxito!
                     </motion.p>
                   )}
                 </motion.div>
               )}
 
-              {/* TAB 3: FIAT / MERCADO PAGO */}
+              {/* TAB 3: FIAT (MERCADO PAGO - LA OPCIÓN NUCLEAR) */}
               {activeTab === 'fiat' && (
                 <motion.div
                   key="fiat"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full max-w-md text-center"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full max-w-sm text-center"
                 >
-                  <div className="mb-8">
-                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#009EE3]/10 mb-4">
-                      <CreditCard size={32} className="text-[#009EE3]" />
-                    </div>
-                    <h3 className="font-playfair text-2xl text-[#2C2419] dark:text-[#D4AF37] mb-2">
-                      Pago Seguro con Tarjeta
-                    </h3>
-                    <p className="font-inter text-sm text-[#2C2419]/70 dark:text-white/60">
-                      Aceptamos todas las tarjetas, OXXO y SPEI vía Mercado Pago.
-                      Serás redirigido a su plataforma segura.
+                  <div className="mb-6">
+                    <h4 className="font-playfair text-xl text-[#2C2419] dark:text-[#D4AF37] mb-2">
+                      Terminal de Respaldo Fiduciario
+                    </h4>
+                    <p className="font-inter text-xs text-[#2C2419]/70 dark:text-white/60">
+                      Si prefieres pagar de forma tradicional con Tarjeta de Crédito, Débito, transferencia vía SPEI o efectivo en OXXO.
                     </p>
                   </div>
 
@@ -279,22 +298,23 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center justify-center gap-3 
-                               w-full py-4 px-8 rounded-xl overflow-hidden
-                               bg-[#009EE3] hover:bg-[#0088c2] text-white
-                               font-inter font-bold text-lg transition-all duration-300
-                               shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                               w-full py-3.5 px-6 rounded-xl overflow-hidden
+                               bg-[#009EE3] hover:bg-[#008bc9] text-white
+                               font-space-grotesk font-bold text-sm transition-all duration-300
+                               shadow-md hover:shadow-lg hover:-translate-y-0.5"
                   >
-                    <span className="relative z-10 flex items-center gap-2">
-                      Pagar con Mercado Pago
-                      <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" />
+                    <span className="relative z-10 flex items-center gap-2 tracking-wide">
+                      Ir al POS de Mercado Pago
+                      <ExternalLink size={14} className="group-hover:translate-x-0.5 transition-transform" />
                     </span>
-                    {/* Brillo sutil al hover */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </a>
 
-                  <p className="mt-4 text-xs font-inter text-[#2C2419]/50 dark:text-white/40">
-                    🔒 Transacción protegida por Mercado Pago
-                  </p>
+                  <div className="mt-8 pt-6 border-t border-[#E07A5F]/10 dark:border-white/5 flex items-center justify-center gap-6 opacity-40 grayscale contrast-200 dark:invert">
+                    <span className="text-[10px] font-space-grotesk tracking-widest font-bold">VISA</span>
+                    <span className="text-[10px] font-space-grotesk tracking-widest font-bold">MASTERCARD</span>
+                    <span className="text-[10px] font-space-grotesk tracking-widest font-bold">SPEI</span>
+                  </div>
                 </motion.div>
               )}
 
@@ -302,21 +322,21 @@ export function LightningQR({ qrSrc, walletAddr }: LightningQRProps) {
           </div>
         </motion.div>
 
-        {/* Footer de la sección */}
+        {/* Footer Técnico Pedagógico */}
         <motion.div 
-          className="mt-8"
+          className="mt-10"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.2 }}
         >
           <a 
             href="https://aceptabitcoin.org" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="font-inter text-sm text-[#E07A5F] dark:text-[#FF6B9E] hover:underline underline-offset-4 transition-all inline-flex items-center gap-1"
+            className="font-space-grotesk text-xs font-bold text-[#E07A5F] dark:text-[#FFB347] hover:underline underline-offset-4 transition-all inline-flex items-center gap-1"
           >
-            ¿Nuevo en Bitcoin? Aprende aquí →
+            ⚡ Impulsando la soberanía financiera en Mérida. Conoce más →
           </a>
         </motion.div>
 
