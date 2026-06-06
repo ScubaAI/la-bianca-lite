@@ -8,9 +8,6 @@ import { TrustBadge } from "@/components/landing/TrustBadge";
 import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
-  const BITCOIN_QR_SRC = "/images/bitcoin-qr.jpg";
-  const WALLET_ADDRESS = "lnbc1... (tu dirección real de Blink) ...xyz";
-
   return (
     <main className="flex flex-col min-h-screen bg-[#FAF7F2] dark:bg-[#12121A] transition-colors duration-500">
       <Navbar />
@@ -28,7 +25,7 @@ export default function Home() {
       <Cartelera />
       
       {/* 5. Lightning QR: Pago crypto nativo */}
-      <LightningQR qrSrc={BITCOIN_QR_SRC} walletAddr={WALLET_ADDRESS} />
+      <LightningQR />
       
       {/* 6. Trust & Footer: Cierre de confianza */}
       <TrustBadge />
