@@ -2,6 +2,31 @@
 
 Este documento registra cambios significativos, decisiones arquitectónicas y correcciones de bugs en el proyecto **La Bianca Lite**.
 
+## [2026-06-08] - Sprint "Tropical Polish"
+### 📋 Resumen Ejecutivo
+Refinamiento final de UX/UI, integración de activos faltantes y estandarización del ecosistema Bitcoin. Corrección de error crítico de compilación en HeroSection.
+
+### 🔧 Cambios por Módulo
+
+#### 1. Hero Section (`HeroSection.tsx`)
+- **Fix Crítico:** Archivo incompleto/corrupto restaurado. El archivo se había truncado sin cerrar etiquetas JSX, causando error de sintaxis `Unexpected token 'section'`.
+- **Capas y Atmósfera:** Contenedor elevado a `z-20`, vapor relegado a `z-10` con `max-h-[30vh]`.
+- **Padding:** `pt-32` agregado para espaciado visual entre navbar y hero card.
+
+#### 2. Nuevo Componente (`TropicalQR.tsx`)
+- **Ubicación:** `components/ui/TropicalQR.tsx`
+- **Funcionalidad:** Generador de QR dinámico con soporte nativo para Design System v1.1.
+- **Características:**
+  - Adaptación automática FG/BG según tema (Día: `#2C2419`/`#FAF7F2` | Noche: `#FFB347`/`#1A1A24`).
+  - Corrección de errores Nivel H (resistente a manchas/salsa).
+  - Badge inferior con tipografía `Space Grotesk`.
+  - Assets referenciados: `/images/logo-day.png` y `/images/logo-night.png` (pendientes de creación).
+
+#### 3. LightningQR (`LightningQR.tsx`)
+- **Integración:** Uso de `TropicalQR` para pestaña "Bitcoin On-Chain", unificando experiencia de escaneo.
+
+---
+
 ## [2026-06-05] - Sprint "Tropical Luxe Polish"
 ### 📋 Resumen Ejecutivo
 Se realizó una auditoría integral de UI/UX y lógica de negocio bajo la estética "Tropical Luxe Salsa Edition v1.1". Se corrigieron bugs críticos de legibilidad y estado, se integraron nuevos requisitos de negocio (Sponsor Bull Bitcoin) y se estandarizó el Design System en CSS y Tailwind.

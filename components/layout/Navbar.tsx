@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image"; // Importamos el componente nativo de Next.js
 import { motion, AnimatePresence } from "framer-motion";
 
 type Language = "ES" | "IT" | "EN";
@@ -17,26 +18,18 @@ export default function Navbar() {
       
       {/* Contenedor del Logo con preeminencia mejorada */}
       <div className="flex items-center pointer-events-auto drop-shadow-lg">
-        <a href="#" className="text-[#2C2419] dark:text-white transition-colors duration-300 hover:opacity-90 group" aria-label="La Bianca Tropical Home">
-          <svg
-            width="160"
-            height="45"
-            viewBox="0 0 160 45"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-[130px] h-[36px] sm:w-[160px] sm:h-[45px] transition-transform duration-300 group-hover:scale-105"
-          >
-            <text
-              x="0"
-              y="32"
-              fill="currentColor"
-              className="font-anton text-3xl tracking-widest uppercase drop-shadow-sm"
-            >
-              La Bianca
-            </text>
-            {/* Punto decorativo con glow sutil */}
-            <circle cx="145" cy="22" r="5" fill="#E07A5F" className="dark:fill-[#FFB347] drop-shadow-[0_0_8px_rgba(224,122,95,0.6)] dark:drop-shadow-[0_0_8px_rgba(255,179,71,0.6)]" />
-          </svg>
+        <a href="#" className="group relative transition-transform duration-300 hover:scale-105 active:scale-95" aria-label="La Bianca Tropical Home">
+          <Image
+            src="/images/bianca-logo.svg"
+            alt="La Bianca Tropical Social Club Logo"
+            width={160}
+            height={45}
+            priority // Carga prioritaria porque está en el viewport inicial
+            className="w-[130px] h-auto sm:w-[160px] object-contain 
+              /* Truco Geek: Fusiona el fondo blanco del SVG con el modo oscuro */
+              mix-blend-multiply dark:mix-blend-screen dark:invert 
+              transition-all duration-300"
+          />
         </a>
       </div>
 

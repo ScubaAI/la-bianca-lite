@@ -56,7 +56,8 @@ export function HeroSection() {
       </div>
 
       {/* 2. Contenido Central encapsulado en un "Globito/Contenedor Glassmorphic" sofisticado */}
-      <div className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center pt-24 pb-12 max-w-4xl">
+      {/* CAMBIO CLAVE: pt-32 para empujar hacia abajo y z-20 para estar SIEMPRE encima del vapor */}
+      <div className="relative z-20 container mx-auto px-4 text-center flex flex-col items-center pt-32 pb-12 max-w-4xl">
         
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -126,7 +127,7 @@ export function HeroSection() {
                  }
                }}
              >
-               📖 Ver Menú
+                Ver Menú
              </ArcadeButton>
             
              {/* BOTÓN SECUNDARIO OPTIMIZADO PARA CONTRASTE */}
@@ -164,8 +165,9 @@ export function HeroSection() {
       </div>
 
       {/* 3. Efecto de Vapor (Solo activo de día) */}
+      {/* CAMBIO CLAVE: max-h-[30vh] para contenerlo abajo y z-10 para que quede detrás del globito */}
       {mounted && !isNight && (
-        <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none overflow-hidden z-10" aria-hidden="true">
+        <div className="absolute bottom-0 left-0 right-0 max-h-[30vh] pointer-events-none overflow-hidden z-10" aria-hidden="true">
           <div className="steam-particle steam-delay-1 left-[15%] bottom-5" />
           <div className="steam-particle steam-delay-2 left-[45%] bottom-10 w-12 h-12" />
           <div className="steam-particle steam-delay-3 left-[75%] bottom-6" />

@@ -1,13 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion"; // Importación limpia y estándar
 import { ExternalLink, MapPin, Phone, Music } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const [activeSede, setActiveSede] = useState<"centro" | "plancha" | null>(null);
+  
+  // URL por defecto (Android / Escritorio)
+  const [downloadUrl, setDownloadUrl] = useState("https://play.google.com/store/search?q=bull%20bitcoin&c=apps&hl=en");
+
+  useEffect(() => {
+    // Detectar si el usuario está en un dispositivo Apple (iPhone, iPad, Mac)
+    // Nota: En SSR esto puede ser tricky, pero al estar en "use client" y dentro de useEffect, es seguro.
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isApple = /iphone|ipad|ipod|macintosh/.test(userAgent);
+
+    if (isApple) {
+      setDownloadUrl("https://apps.apple.com/us/app/bull-bitcoin/id6743380972");
+    }
+  }, []);
 
   return (
     <footer className="relative bg-[#FAF7F2] dark:bg-[#12121A] border-t border-[#E07A5F]/20 dark:border-[#D4AF37]/20 pt-16 pb-8 transition-colors duration-1000 overflow-hidden">
@@ -32,11 +46,11 @@ export function Footer() {
             
             {/* Bloque Premium: Patrocinador Oficial & Wallet Partner */}
             <div className="flex flex-col gap-4 mt-2 items-center md:items-start">
-              {/* Botón Sponsor: Bull Bitcoin App Store/Play Store style */}
+              {/* Botón Sponsor: Bull Bitcoin App Store/Play Store style con detección de OS */}
               <motion.a 
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href="https://play.google.com/store/search?q=bull%20bitcoin&c=apps&hl=en"
+                href={downloadUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="group relative w-full md:w-auto inline-flex items-center justify-between gap-3 px-4 py-3 rounded-xl 
@@ -47,6 +61,7 @@ export function Footer() {
                   transition-all duration-300"
               >
                 <div className="flex items-center gap-3 text-left">
+                  {/* El torito feliz brincando */}
                   <span className="text-2xl group-hover:animate-bounce">🐂</span>
                   <div>
                     <p className="font-space-grotesk text-[10px] text-[#E07A5F] dark:text-[#FFB347] uppercase tracking-widest font-bold">
@@ -148,7 +163,7 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Columna 3: Contacto & Redes Sociales Auténticas */}
+          {/* Columna 3: Contacto & Redes Sociales */}
           <div className="text-center md:text-right flex flex-col justify-between items-center md:items-end">
             <div>
               <h4 className="font-playfair text-lg text-[#2C2419] dark:text-[#D4AF37] mb-6 font-semibold flex items-center gap-2 md:justify-end">
@@ -192,9 +207,9 @@ export function Footer() {
                  aria-label="Instagram"
                >
                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                   <path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                  </svg>
-                </a>
+                   <path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                 </svg>
+               </a>
               <a 
                 href="https://www.tiktok.com/@labiancatropical" 
                 target="_blank" 
@@ -215,7 +230,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Copyright Final Sanitizado */}
+        {/* Copyright Final */}
         <div className="border-t border-[#E07A5F]/10 dark:border-[#D4AF37]/10 pt-8 text-center">
           <p className="font-inter text-xs text-[#2C2419]/50 dark:text-white/40">
             © {currentYear} La Bianca Tropical. Todos los derechos reservados.

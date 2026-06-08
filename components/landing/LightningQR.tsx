@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { QRCodeSVG } from 'qrcode.react'; // Dependencia clave para SVG nativo
+import { QRCodeSVG } from 'qrcode.react';
 import { 
   Zap, 
   Copy, 
@@ -12,6 +12,7 @@ import {
   Coins,
   ShieldCheck
 } from "lucide-react";
+import { TropicalQR } from "@/components/ui/TropicalQR"; // ✅ Importamos tu componente
 
 // CONFIGURACIÓN CENTRALIZADA
 const CONFIG = {
@@ -146,11 +147,11 @@ export function LightningQR() {
                   {/* QR Nativo SVG */}
                   <div className="relative p-4 rounded-xl bg-white border border-[#E8DDD0] dark:border-[#FFB347]/30 shadow-inner mb-4">
                     <QRCodeSVG
-                      value={CONFIG.blinkPosLink} // Mismo destino que el botón
+                      value={CONFIG.blinkPosLink}
                       size={180}
                       level="H"
                       includeMargin={true}
-                      fgColor="#2C2419" // Color oscuro para contraste
+                      fgColor="#2C2419"
                       bgColor="#FFFFFF"
                     />
                     <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#3D5A51] text-white text-[10px] font-space-grotesk font-bold px-3 py-1 rounded-full shadow-md whitespace-nowrap">
@@ -198,30 +199,38 @@ export function LightningQR() {
                     </p>
                   </div>
 
-                  <p className="font-inter text-[11px] text-[#2C2419]/50 dark:text-white/40 uppercase tracking-widest mb-2">
-                    Dirección Bitcoin (Bech32):
-                  </p>
-                  
-                  <button
-                    onClick={() => handleCopy(CONFIG.onChainAddress)}
-                    className={`group relative w-full p-4 rounded-xl border-2 transition-all duration-300 text-left
-                               ${copied 
-                                 ? 'border-[#3D5A51] bg-[#3D5A51]/5 dark:bg-[#3D5A51]/10' 
-                                 : 'border-[#E07A5F]/20 dark:border-white/10 bg-white/40 dark:bg-[#12121A]/40 hover:border-[#E07A5F] dark:hover:border-[#FFB347]'
-                               }`}
-                  >
-                    <code className="font-space-grotesk text-xs md:text-sm text-[#2C2419] dark:text-[#FFB347] break-all block pr-8 font-medium">
-                      {CONFIG.onChainAddress}
-                    </code>
-                    
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                      {copied ? (
-                        <Check size={16} className="text-[#3D5A51] dark:text-[#FFB347]" />
-                      ) : (
-                        <Copy size={16} className="text-[#2C2419]/40 dark:text-white/40 group-hover:text-[#E07A5F] dark:group-hover:text-[#FFB347] transition-colors" />
-                      )}
-                    </div>
-                  </button>
+                  {/* ✅ Añadido: TropicalQR para On-Chain */}
+                  <TropicalQR 
+                    value={CONFIG.onChainAddress}
+                    label="ESCANEAR PARA PAGAR"
+                    size={180}
+                  />
+
+                  {/* ✅ Mantenido: Botón de copia exactamente como estaba */}
+                  <div className="mt-4">
+                    <p className="font-inter text-[11px] text-[#2C2419]/50 dark:text-white/40 uppercase tracking-widest mb-2">
+                      O copia manualmente:
+                    </p>
+                    <button
+                      onClick={() => handleCopy(CONFIG.onChainAddress)}
+                      className={`group relative w-full p-3 rounded-lg border-2 transition-all duration-300 text-left
+                                 ${copied 
+                                   ? 'border-[#3D5A51] bg-[#3D5A51]/5 dark:bg-[#3D5A51]/10' 
+                                   : 'border-[#E07A5F]/20 dark:border-white/10 bg-white/40 dark:bg-[#12121A]/40 hover:border-[#E07A5F] dark:hover:border-[#FFB347]'
+                                 }`}
+                    >
+                      <code className="font-space-grotesk text-xs text-[#2C2419] dark:text-[#FFB347] break-all block pr-8 font-medium">
+                        {CONFIG.onChainAddress}
+                      </code>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                        {copied ? (
+                          <Check size={16} className="text-[#3D5A51] dark:text-[#FFB347]" />
+                        ) : (
+                          <Copy size={16} className="text-[#2C2419]/40 dark:text-white/40 group-hover:text-[#E07A5F] dark:group-hover:text-[#FFB347]" />
+                        )}
+                      </div>
+                    </button>
+                  </div>
                 </motion.div>
               )}
 
