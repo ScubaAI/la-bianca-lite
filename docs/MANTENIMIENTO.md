@@ -1,116 +1,55 @@
-# 🛠️ Registro de Mantenimiento y Cambios (Changelog)
-
-Este documento registra cambios significativos, decisiones arquitectónicas y correcciones de bugs en el proyecto **La Bianca Lite**.
-
-## [2026-06-08] - Sprint "Tropical Polish"
-### 📋 Resumen Ejecutivo
-Refinamiento final de UX/UI, integración de activos faltantes y estandarización del ecosistema Bitcoin. Corrección de error crítico de compilación en HeroSection.
-
-### 🔧 Cambios por Módulo
-
-#### 1. Hero Section (`HeroSection.tsx`)
-- **Fix Crítico:** Archivo incompleto/corrupto restaurado. El archivo se había truncado sin cerrar etiquetas JSX, causando error de sintaxis `Unexpected token 'section'`.
-- **Capas y Atmósfera:** Contenedor elevado a `z-20`, vapor relegado a `z-10` con `max-h-[30vh]`.
-- **Padding:** `pt-32` agregado para espaciado visual entre navbar y hero card.
-
-#### 2. Nuevo Componente (`TropicalQR.tsx`)
-- **Ubicación:** `components/ui/TropicalQR.tsx`
-- **Funcionalidad:** Generador de QR dinámico con soporte nativo para Design System v1.1.
-- **Características:**
-  - Adaptación automática FG/BG según tema (Día: `#2C2419`/`#FAF7F2` | Noche: `#FFB347`/`#1A1A24`).
-  - Corrección de errores Nivel H (resistente a manchas/salsa).
-  - Badge inferior con tipografía `Space Grotesk`.
-  - Assets referenciados: `/images/logo-day.png` y `/images/logo-night.png` (pendientes de creación).
-
-#### 3. LightningQR (`LightningQR.tsx`)
-- **Integración:** Uso de `TropicalQR` para pestaña "Bitcoin On-Chain", unificando experiencia de escaneo.
-
----
-
-## [2026-06-05] - Sprint "Tropical Luxe Polish"
-### 📋 Resumen Ejecutivo
-Se realizó una auditoría integral de UI/UX y lógica de negocio bajo la estética "Tropical Luxe Salsa Edition v1.1". Se corrigieron bugs críticos de legibilidad y estado, se integraron nuevos requisitos de negocio (Sponsor Bull Bitcoin) y se estandarizó el Design System en CSS y Tailwind.
-
-### 🔧 Cambios por Módulo
-
-#### 1. Hero Section (`HeroSection.tsx`)
-- **Fix Legibilidad Diurna:** Contenedor glassmorphic (`bg-white/85 backdrop-blur-xl`) para encapsular texto y solucionar contraste.
-- **Palmeras:** Opacidad aumentada a 0.6 en día + `drop-shadow-md`.
-- **Atmósfera:** Overlay crema reforzado (`mix-blend-multiply`).
-
-#### 2. Navbar (`Navbar.tsx`)
-- **Visibilidad:** Cambiado a `fixed` + gradiente `from-white/90`.
-- **Logo:** SVG optimizado con punto decorativo animado.
-- **Selector Idioma:** Dropdown con animación `scale` y glassmorphism.
-
-#### 3. Menú (`MenuSection.tsx`)
-- 🐛 **Bug Crítico:** Corregido error de renderizado al alternar categorías con/sin subcategorías usando `useMemo`.
-- **UI:** Botones de subcategorías con estados activos claros.
-
-#### 4. Reservas (`BookingSection.tsx`)
-- **Layout:** Grid 2 columnas (Texto Izq / Cal.com Der).
-- **Fix Cal.com:** Contenedor con `min-h-[600px]` y `overflow-hidden`.
-- **Narrativa:** Copy de marca con tipografías Playfair y Cormorant.
-
-#### 5. Cartelera (`Cartelera.tsx`)
-- **Datos:** Evento dominical ajustado a "Brunch Musical".
-- **Estética:** Hover `-translate-y-1` y badges dinámicos.
-- **Contraste:** Fondo nocturno `bg-[#1A1A24]/95`.
-
-#### 6. Pagos (`LightningQR.tsx`)
-- **Estrategia 4 Niveles:** Blink POS → Lightning Address → On-Chain → Mercado Pago.
-- **Design System:** Tokens oficiales (Amber Salsa, Verde Selva).
-- **Feedback:** Vibración háptica al copiar.
-
-#### 7. Footer (`Footer.tsx`)
-- **Sponsor:** Botón Bull Bitcoin con enlace a Play Store.
-- **Mapas:** Links actualizados + efecto slide-on-hover.
-- **Redes:** Iconos Lucide React.
-
-#### 8. Infraestructura (`globals.css` & `tailwind.config.ts`)
-- **CSS Variables:** Tokens RGB sincronizados.
-- **Firefox:** `scrollbar-color` añadido.
-- **Accesibilidad:** `prefers-reduced-motion` reforzado.
-- **Tailwind:** Sombras `salsa-glow`, `terracota-soft`.
-
----
-
-## [2026-05-28] - Initial Commit & Lite Launch
-### 🚀 Features
-- **Landing Page Completa:** Hero inmersivo, sección de reservas Cal.com y pagos Bitcoin estáticos.
-- **Design System "Tropical Luxe":** Implementación de paleta día/noche, tipografías premium y texturas tropicales.
-- **Componentes UI:** `ArcadeButton`, `GlassCard`, `LightningQR` con animaciones personalizadas.
-- **Footer Integrado:** Links a redes sociales, WhatsApp directo y botones estilizados para Google Maps (Sede Centro y La Plancha).
-
-### 🐛 Bug Fixes & Technical Debts
-- **Framer Motion Dependencies:** Se instalaron `motion-dom` y `motion-utils` para resolver errores de build en Next.js 14.
-- **Rutas de Importación:** Corregida estructura de carpetas para `components/layout/Footer.tsx`.
-- **TypeScript Types:** Añadidos `// @ts-nocheck` temporales en `lib/utils.ts` y definición de tipos para `clsx` para agilizar el primer deploy.
-
-### 🎨 Design Decisions
-- **Static QR vs Dynamic:** Para la versión Lite, se optó por QR estático (JPG) para evitar dependencia de Blink API en el frontend y permitir deploy instantáneo en Vercel sin variables de entorno complejas.
-- **Cal.com Embed:** Se usó el embed inline en lugar de redirección externa para mantener al usuario en la experiencia "Tropical Luxe".
-
-## [2026-05-28] - Production UI Fixes
-### 🐛 Bug Fixes & Technical Debts
-- **CSS Variable Error Fixed:** Reemplazado `var(--neon-cian)` no definido por valor hexadecimal `#00F5D4` en `globals.css`.
-- **Duplicate Font Import Removed:** Eliminado `@import` de Google Fonts (usa Next.js Font Optimization via `next/font/google`).
-- **Selection Styles:** Agregados estilos `::selection` nativos en CSS para evitar hydration mismatch.
-- **Hydration Fixes:** Agregado `suppressHydrationWarning` en `HeroSection.tsx` y `BookingSection.tsx` para prevenir parpadeo.
-- **External Images:** Agregado `unoptimized` prop en HeroSection para imágenes Unsplash que pueden fallar en producción.
-- **Cal.com Script Handling:** Mejorado manejo de script con verificación `typeof window.Cal !== "undefined"` y error handler.
-- **Clean Unused Code:** Eliminado `components/providers/theme-provider.tsx` (archivo no usado con bugs de hooks).
-
-### 📊 Status Actual
-- **Build Status:** ✓ Compila correctamente
-- **Deploy:** Push realizado, Vercel redeploy en progreso
-- **Próximos pasos:** Verificar UI en producción, considerar usar imágenes locales en vez de Unsplash
-
-## [Pending] - Próximas Iteraciones
-- [ ] Integración de API Blink para invoices dinámicas (Versión SaaS).
-- [ ] Sistema de autenticación para admin dashboard.
-- [ ] Optimización de imágenes WebP/AVIF.
-- [ ] Tests E2E con Playwright.
-
----
-*Mantenido por: Equipo La Bianca × AceptaBitcoin.org*
+📝 Bitácora de Mantenimiento y Cambios Recientes (La Bianca Tropical)
+Fecha de actualización: 29 de Junio, 2026
+Motivo: Pivot estratégico basado en feedback del cliente (Simplificación de flujos de pago y reservas).
+🎯 Contexto del Pivot
+El cliente solicitó eliminar la fricción en la terminal de pagos y cambiar el sistema de reservas. Se migró de Cal.com a un Bot de Telegram, y de Blink/Mercado Pago a BTCPay Server (self-hosted en Elestio). Se eliminó la pestaña Fiat para centralizar la experiencia crypto y reducir redundancia con sus terminales físicas.
+🛠️ Desglose de Cambios (Changelog)
+1. 🧭 Navegación y UX (Quick Wins)
+Botón Flotante de WhatsApp (components/ui/whatsapp-float.tsx):
+Añadido en la esquina inferior derecha.
+Enlaza a wa.me/5219997503458.
+Usa animación pulse-slow y tooltip en hover.
+Botón "Paga Aquí" (components/ui/paga-aqui-float.tsx):
+Aparece tras 300px de scroll para no saturar el Hero.
+Ejecuta scrollIntoView({ behavior: 'smooth' }) hacia el id="pagos".
+Integración en Layout: Ambos componentes inyectados en app/page.tsx justo antes del cierre del <main>.
+2. ⚡ Terminal de Pagos (components/landing/LightningQR.tsx)
+Amputación Fiat: Se eliminó por completo la pestaña de "Tarjeta / SPEI" (Mercado Pago) y su lógica de estado. El type TabId ahora solo acepta 'lightning' | 'onchain'.
+Migración a BTCPay Server:
+Se reemplazó el link de Blink POS por el POS nativo de BTCPay.
+Se actualizó la dirección On-Chain a bc1qrqcmlp7sxjk5gvs7umpfudr4gn393xcmj4xtac.
+Se actualizó la Lightning Address a la-bianca@btcpay-c092a-u74190.vm.elestio.app.
+Unificación Visual (TropicalQR): Se eliminó el QRCodeSVG nativo de la pestaña Lightning para usar el componente TropicalQR en ambas pestañas (Lightning y On-Chain), manteniendo la consistencia del Design System (cambio de colores dinámico día/noche).
+Marquesina de Lujo "15% OFF": Se añadió un badge con gradiente perla (#FFF8DC), glow animado y tipografía Playfair para incentivar pagos en Bitcoin.
+3. 📅 Sistema de Reservas (components/landing/BookingSection.tsx)
+RIP Cal.com: Se eliminó toda la dependencia de @calcom/embed-react, sus useEffect de inicialización, el MutationObserver de temas y el contenedor calContainerRef.
+Integración Telegram Bot:
+Se rediseñó la columna derecha (7 cols) como una "Tarjeta de Invitación Digital".
+Se implementó un Mockup de Chat en vivo (UI estática con Framer Motion) para mostrar la UX del bot.
+Se integró TropicalQR apuntando al link del bot.
+Se añadió un CTA gigante con gradiente oficial de Telegram (#0088cc) y un botón secundario para copiar el @username.
+⚙️ Configuración y Endpoints (La "Caja Negra")
+Para evitar tener que buscar en el historial de Slack/WhatsApp, aquí están las credenciales y URLs críticas hardcodeadas en el frontend:
+Servicio
+Configuración / URL
+Ubicación en Código
+BTCPay POS Web
+https://btcpay-c092a-u74190.vm.elestio.app/apps/4WjfKdWs7Ss37HKntGvRYF8TuH9c/pos
+LightningQR.tsx (CONFIG)
+Lightning Address
+la-bianca@btcpay-c092a-u74190.vm.elestio.app
+LightningQR.tsx (CONFIG)
+Bitcoin On-Chain
+bc1qrqcmlp7sxjk5gvs7umpfudr4gn393xcmj4xtac
+LightningQR.tsx (CONFIG)
+Telegram Bot
+https://t.me/transaccioneslabianca_bot
+BookingSection.tsx
+WhatsApp Business
+https://wa.me/5219997503458
+whatsapp-float.tsx
+📌 Notas para el Próximo Dev (o tu yo del futuro)
+Dominio BTCPay Pendiente: La Lightning Address actual usa el dominio vm.elestio.app. El socio está en proceso de configurar el dominio personalizado (ej. pagos.labiancatropical.com) en Elestio. Cuando lo haga, actualizar el CONFIG.lightningAddress.
+Plugin de Telegram en BTCPay: El cliente instaló un plugin de Telegram en el servidor BTCPay. Si en el futuro se quiere automatizar la confirmación de pagos directamente en el chat de reservas, se puede usar la API de BTCPay para conectar ambos flujos.
+Design System Compliance: Todos los nuevos componentes respetan el DESIGN_SYSTEM.md. Se usan las variables de color #E07A5F (Terracota), #FFB347 (Amber Salsa), #2C2419 (Café) y #3D5A51 (Verde Tropical). El modo oscuro se detecta automáticamente por hora (18:00 - 06:00) o por preferencia del sistema.
+Vercel Deployments: Los cambios son 100% client-side ('use client'), por lo que no requieren cambios en middleware.ts ni en las Edge Configs de Vercel. El build time debería mantenerse estable.

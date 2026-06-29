@@ -1,104 +1,28 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { getCalApi } from "@calcom/embed-react";
+import { Send, MessageCircle, Calendar, Clock, Users, Sparkles } from "lucide-react";
+import { TropicalQR } from "@/components/ui/TropicalQR";
 
-// 🔧 REEMPLAZAR POR EL LINK REAL DEL NEGOCIO CUANDO ESTÉ LISTO
-const CAL_LINK = "https://cal.com/pablo-cortes-7cwjtu/reserva-mesa";
+// Link del Bot de Telegram
+const TELEGRAM_BOT_LINK = "https://t.me/transaccioneslabianca_bot";
 
 export function BookingSection() {
-  const calContainerRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const isMounted = useRef(false);
-  const calApiInstance = useRef<any>(null);
+  const [copied, setCopied] = useState(false);
 
-  // Función auxiliar para obtener el tema actual compatible con el Design System
-  const getCurrentTheme = () =>
-    document.documentElement.classList.contains("dark") ? "dark" : "light";
-
-  // Función unificada de renderizado para evitar duplicaciones fantasmas
-  const renderCalInline = (api: any) => {
-    if (!calContainerRef.current || !api) return;
-
-    // 🧹 LIMPIEZA TOTAL CRÍTICA: Elimina iframes previos antes de reinyectar
-    calContainerRef.current.innerHTML = "";
-
-    api("inline", {
-      elementOrSelector: calContainerRef.current,
-      calLink: CAL_LINK,
-      config: {
-        layout: "month_view",
-        theme: getCurrentTheme(),
-      },
-    });
+  const handleCopyUsername = async () => {
+    try {
+      await navigator.clipboard.writeText("@transaccioneslabianca_bot");
+      setCopied(true);
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(30);
+      }
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Error al copiar:", err);
+    }
   };
-
-  useEffect(() => {
-    isMounted.current = true;
-
-    const initCal = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        // Inicializar la API de Cal.com
-        const calApi = await getCalApi({ namespace: "30min" });
-        calApiInstance.current = calApi;
-
-        // Configuración de UI Global
-        calApi("ui", {
-          hideEventTypeDetails: false,
-          layout: "month_view",
-          theme: getCurrentTheme(),
-          styles: {
-            branding: { brandColor: "#E07A5F" }, // Terracota oficial
-          },
-        });
-
-        if (isMounted.current) {
-          renderCalInline(calApi);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.error("Error initializing Cal.com:", err);
-        if (isMounted.current) {
-          setError("No pudimos cargar el calendario. Por favor, intenta más tarde.");
-          setIsLoading(false);
-        }
-      }
-    };
-
-    initCal();
-
-    return () => {
-      isMounted.current = false;
-      if (calContainerRef.current) {
-        calContainerRef.current.innerHTML = "";
-      }
-    };
-  }, []);
-
-  // Escucha cambios en el tema Día/Noche para actualizar el widget limpiamente
-  useEffect(() => {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === "class" && calContainerRef.current && calApiInstance.current) {
-          const newTheme = getCurrentTheme();
-          
-          // Actualizar tema global
-          calApiInstance.current("ui", { theme: newTheme });
-          
-          // Re-renderizado controlado libre de duplicados gigantes
-          renderCalInline(calApiInstance.current);
-        }
-      });
-    });
-
-    observer.observe(document.documentElement, { attributes: true });
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section
@@ -129,38 +53,41 @@ export function BookingSection() {
                 Salsa & Wood Fired Oven
               </span>
               <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-[#2C2419] dark:text-[#D4AF37] mt-6 leading-[1.1] drop-shadow-sm transition-colors duration-500">
-                Conoce <br className="hidden lg:block"/>
-                <span className="text-[#E07A5F] dark:text-[#FF6B9E] font-cormorant italic font-normal">La Bianca Tropical</span>
+                Reserva Tu <br className="hidden lg:block"/>
+                <span className="text-[#E07A5F] dark:text-[#FF6B9E] font-cormorant italic font-normal">Experiencia</span>
               </h2>
             </div>
 
             <div className="space-y-4">
               <p className="font-cormorant text-xl md:text-2xl text-[#2C2419]/90 dark:text-white/90 leading-relaxed font-medium">
-                Un vibrante restaurante bar en Mérida que fusiona el 
-                <span className="italic text-[#E07A5F] dark:text-[#FFB347]"> baile de salsa </span> 
-                con cocina italiana y mediterránea de alta calidad.
+                Reserva tu mesa en segundos a través de nuestro 
+                <span className="italic text-[#E07A5F] dark:text-[#FFB347]"> asistente inteligente </span> 
+                de Telegram.
               </p>
 
               <p className="font-inter text-sm md:text-base text-[#2C2419]/70 dark:text-white/60 leading-relaxed">
-                Destaca por su masa de lenta fermentación, pasta hecha a mano y especialidades italianas únicas. 
-                Ofrece seis eventos semanales con música en vivo, coctelería de nivel y mezcales artesanales en 
-                un ambiente informal con jardín, atrayendo a turistas y locales para una experiencia gastronómica 
-                y cultural memorable.
+                Nuestro bot te guiará paso a paso para elegir fecha, hora y número de comensales. 
+                Sin esperas, sin llamadas, sin complicaciones. 
+                <span className="block mt-2 font-semibold text-[#3D5A51] dark:text-[#FFB347]">
+                  Confirmación instantánea 24/7 ⚡
+                </span>
               </p>
             </div>
 
             {/* Badges de Confianza Rápidos */}
             <div className="pt-6 flex flex-wrap justify-center lg:justify-start gap-4">
               <span className="inline-flex items-center gap-2 text-xs font-space-grotesk px-4 py-2 rounded-xl bg-white dark:bg-[#1A1A24] shadow-sm border border-[#E8DDD0] dark:border-white/10 text-[#2C2419] dark:text-white font-bold uppercase tracking-wide">
-                🪑 Reserva Inmediata
+                <Calendar size={14} className="text-[#E07A5F] dark:text-[#FFB347]" />
+                Reserva Inmediata
               </span>
               <span className="inline-flex items-center gap-2 text-xs font-space-grotesk px-4 py-2 rounded-xl bg-white dark:bg-[#1A1A24] shadow-sm border border-[#E8DDD0] dark:border-white/10 text-[#2C2419] dark:text-white font-bold uppercase tracking-wide">
-                🎵 6 Eventos en Vivo / Sem
+                <Clock size={14} className="text-[#3D5A51] dark:text-[#FFB347]" />
+                Confirmación 24/7
               </span>
             </div>
           </motion.div>
 
-          {/* COLUMNA DERECHA: Widget de Reservas Cal.com (7 columnas) */}
+          {/* COLUMNA DERECHA: Tarjeta de Invitación Telegram (7 columnas) */}
           <motion.div 
             className="lg:col-span-7 w-full"
             initial={{ opacity: 0, x: 30 }}
@@ -169,42 +96,141 @@ export function BookingSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             {/* Contenedor Glassmorphism "Tropical Salsa" */}
-            <div className="bg-white/80 dark:bg-[#1A1A24]/90 backdrop-blur-xl border border-[#E07A5F]/20 dark:border-[#FFB347]/30 rounded-3xl p-2 md:p-4 shadow-[0_8px_32px_rgba(44,36,25,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden min-h-[600px] flex flex-col justify-center relative transition-all duration-500">
+            <div className="bg-white/80 dark:bg-[#1A1A24]/90 backdrop-blur-xl border border-[#E07A5F]/20 dark:border-[#FFB347]/30 rounded-3xl p-6 md:p-8 shadow-[0_8px_32px_rgba(44,36,25,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden relative transition-all duration-500">
               
-              {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-[#FAF7F2]/80 dark:bg-[#12121A]/80 backdrop-blur-sm z-20 rounded-2xl">
-                  <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-[#E07A5F] dark:border-[#FFB347] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    <p className="font-space-grotesk text-xs tracking-widest text-[#2C2419]/60 dark:text-white/60 uppercase">
-                      Buscando mesas disponibles...
+              {/* Header de la Tarjeta */}
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#0088cc] to-[#005f8c] flex items-center justify-center shadow-lg">
+                    <Send size={24} className="text-white" fill="currentColor" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-playfair text-2xl text-[#2C2419] dark:text-[#D4AF37] font-bold">
+                      Asistente de Reservas
+                    </h3>
+                    <p className="font-space-grotesk text-xs text-[#2C2419]/60 dark:text-white/50 uppercase tracking-wider">
+                      Powered by Telegram
                     </p>
                   </div>
                 </div>
-              )}
-              
-              {error && (
-                <div className="flex items-center justify-center min-h-[500px] z-20 px-4">
-                  <div className="text-center max-w-sm p-8 bg-red-50/50 dark:bg-red-950/20 rounded-2xl border border-red-200 dark:border-red-900/50 backdrop-blur-md">
-                    <p className="text-red-700 dark:text-red-400 text-sm mb-6 font-inter font-medium">⚠️ {error}</p>
-                    <a 
-                      href="https://wa.me/529991234567?text=Hola%2C%20quisiera%20reservar%20una%20mesa"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#3D5A51] hover:bg-[#3D5A51]/90 text-white text-sm rounded-full transition-all duration-300 font-space-grotesk font-bold uppercase tracking-wide shadow-lg hover:scale-105"
-                    >
-                      📱 Reservar por WhatsApp
-                    </a>
+              </div>
+
+              {/* Mockup de Chat de Telegram */}
+              <div className="mb-8 p-4 rounded-2xl bg-[#E8DDD0]/20 dark:bg-black/30 border border-[#E07A5F]/10 dark:border-white/5">
+                <div className="space-y-3">
+                  {/* Mensaje del Bot */}
+                  <div className="flex items-start gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#0088cc] to-[#005f8c] flex items-center justify-center flex-shrink-0">
+                      <Send size={14} className="text-white" fill="currentColor" />
+                    </div>
+                    <div className="bg-white dark:bg-[#1A1A24] rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[80%] shadow-sm border border-[#E8DDD0] dark:border-white/10">
+                      <p className="font-inter text-sm text-[#2C2419] dark:text-white">
+                        ¡Ciao! 🍕 Soy tu asistente de La Bianca Tropical. ¿Para cuándo quieres reservar?
+                      </p>
+                      <p className="font-space-grotesk text-[10px] text-[#2C2419]/40 dark:text-white/30 mt-1">
+                        18:30 ✓✓
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Mensaje del Usuario */}
+                  <div className="flex items-start gap-2 flex-row-reverse">
+                    <div className="bg-[#E07A5F] dark:bg-[#FFB347] rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[80%] shadow-sm">
+                      <p className="font-inter text-sm text-white dark:text-[#12121A]">
+                        Para mañana a las 20:00, somos 4 personas 🎉
+                      </p>
+                      <p className="font-space-grotesk text-[10px] text-white/70 dark:text-[#12121A]/60 mt-1 text-right">
+                        18:31 ✓✓
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Respuesta del Bot */}
+                  <div className="flex items-start gap-2">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#0088cc] to-[#005f8c] flex items-center justify-center flex-shrink-0">
+                      <Send size={14} className="text-white" fill="currentColor" />
+                    </div>
+                    <div className="bg-white dark:bg-[#1A1A24] rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[80%] shadow-sm border border-[#E8DDD0] dark:border-white/10">
+                      <p className="font-inter text-sm text-[#2C2419] dark:text-white">
+                        ¡Perfecto! 🎊 Mesa para 4 personas mañana a las 20:00. 
+                        <span className="block mt-1 font-semibold text-[#3D5A51] dark:text-[#FFB347]">
+                          Confirmada ✓
+                        </span>
+                      </p>
+                      <p className="font-space-grotesk text-[10px] text-[#2C2419]/40 dark:text-white/30 mt-1">
+                        18:31 ✓✓
+                      </p>
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {/* El contenedor mágico de Cal.com libre de duplicaciones */}
-              <div 
-                ref={calContainerRef}
-                className={`w-full rounded-2xl overflow-hidden transition-all duration-500 min-h-[580px]
-                  ${isLoading || error ? 'opacity-0 h-0 pointer-events-none' : 'opacity-100 h-auto'}`}
-              />
+              {/* QR de Telegram */}
+              <div className="flex flex-col items-center mb-6">
+                <TropicalQR 
+                  value={TELEGRAM_BOT_LINK}
+                  label="ESCANEA PARA RESERVAR"
+                  size={200}
+                />
+              </div>
+
+              {/* Botón CTA Gigante */}
+              <a
+                href={TELEGRAM_BOT_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative w-full py-4 px-6 rounded-2xl overflow-hidden mb-4
+                           bg-gradient-to-r from-[#0088cc] to-[#005f8c] 
+                           hover:from-[#0077b3] hover:to-[#004d73]
+                           text-white font-space-grotesk font-bold text-base
+                           flex items-center justify-center gap-3
+                           shadow-lg hover:shadow-xl transition-all duration-300
+                           hover:-translate-y-0.5"
+              >
+                <Send size={20} fill="currentColor" className="group-hover:translate-x-1 transition-transform" />
+                <span>Abrir Asistente de Reservas</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+
+              {/* O copiar username */}
+              <button
+                onClick={handleCopyUsername}
+                className="w-full py-3 px-4 rounded-xl bg-[#E8DDD0]/30 dark:bg-white/5 border border-[#E07A5F]/10 dark:border-white/10
+                           font-space-grotesk text-sm text-[#2C2419] dark:text-white/70 
+                           hover:bg-[#E07A5F]/5 dark:hover:bg-[#FFB347]/5 transition-all group
+                           flex items-center justify-center gap-2"
+              >
+                <MessageCircle size={16} className="text-[#0088cc]" />
+                <span className="font-medium">@transaccioneslabianca_bot</span>
+                {copied ? (
+                  <span className="text-[#3D5A51] dark:text-[#FFB347] text-xs font-bold">✓ COPIADO</span>
+                ) : (
+                  <span className="text-[#2C2419]/40 dark:text-white/40 text-xs">COPIAR</span>
+                )}
+              </button>
+
+              {/* Footer informativo */}
+              <div className="mt-6 pt-6 border-t border-[#E07A5F]/10 dark:border-white/5 flex items-center justify-center gap-4 text-xs font-space-grotesk text-[#2C2419]/50 dark:text-white/40">
+                <span className="flex items-center gap-1">
+                  <Users size={12} />
+                  Sin registro
+                </span>
+                <span className="w-1 h-1 rounded-full bg-[#E07A5F]/30 dark:bg-[#FFB347]/30" />
+                <span className="flex items-center gap-1">
+                  <Sparkles size={12} />
+                  Respuesta inmediata
+                </span>
+                <span className="w-1 h-1 rounded-full bg-[#E07A5F]/30 dark:bg-[#FFB347]/30" />
+                <span className="flex items-center gap-1">
+                  <Clock size={12} />
+                  24/7
+                </span>
+              </div>
             </div>
 
-            {/* Footer de la sección: Info de Bitcoin de acuerdo al README */}
+            {/* Footer de la sección: Info de Bitcoin */}
             <p className="text-center lg:text-right mt-6 text-xs font-space-grotesk text-[#2C2419]/50 dark:text-white/40 uppercase tracking-wider">
               ⚡ Aceptamos Bitcoin Lightning • 
               <span className="ml-1 text-[#3D5A51] dark:text-[#FFB347] font-bold">

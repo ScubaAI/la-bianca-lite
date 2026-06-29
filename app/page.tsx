@@ -6,6 +6,8 @@ import { Cartelera } from "@/components/sections/Cartelera";
 import { LightningQR } from "@/components/landing/LightningQR";
 import { TrustBadge } from "@/components/landing/TrustBadge";
 import { Footer } from "@/components/layout/Footer";
+import { WhatsAppFloat } from "@/components/ui/whatsapp-float";
+import { PagaAquiFloat } from "@/components/ui/paga-aqui-float";
 
 export default function Home() {
   return (
@@ -30,6 +32,10 @@ export default function Home() {
       {/* 6. Trust & Footer: Cierre de confianza */}
       <TrustBadge />
       <Footer />
+      
+      {/* Botones Flotantes */}
+      <PagaAquiFloat />
+      <WhatsAppFloat />
     </main>
   );
 }
