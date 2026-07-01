@@ -9,6 +9,7 @@ import {
 import "./globals.css";
 import { Providers } from "./providers";
 import { ThemeTimeWatcher } from "@/components/layout/ThemeTimeWatcher";
+import Script from "next/script"; // ⚡ NUEVO
 
 // ✅ CONFIGURACIÓN DE FUENTES (Next.js 13+)
 const playfair = Playfair_Display({
@@ -98,6 +99,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <div className="fixed inset-0 z-[-1] palm-overlay" aria-hidden="true" />
           {children}
         </Providers>
+        
+        {/* ⚡ UMAMI ANALYTICS */}
+        <Script 
+          src="https://cloud.umami.is/script.js"
+          data-website-id="4f9646be-c6c4-4ec2-950c-72d0b7189d7a"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
